@@ -12,7 +12,7 @@ namespace FileForgeDP
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ExampleRepository exampleRepository;
+        private readonly ExampleRepository _exampleRepository;
 
         private static readonly string[] Summaries = new[]
         {
@@ -21,9 +21,10 @@ namespace FileForgeDP
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ExampleRepository exampleRepository)
         {
             _logger = logger;
+            _exampleRepository = exampleRepository;
         }
 
         [HttpGet]
