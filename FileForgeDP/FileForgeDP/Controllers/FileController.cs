@@ -17,7 +17,7 @@
         /// <summary>
         /// Defines the mFileService.
         /// </summary>
-        private readonly FileService mFileService;
+        private readonly FileRepository mFileService;
 
         /// <summary>
         /// Defines the mFileModelMapper.
@@ -27,9 +27,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FileController"/> class.
         /// </summary>
-        /// <param name="fileService">The fileService<see cref="FileService"/>.</param>
+        /// <param name="fileService">The fileService<see cref="FileRepository"/>.</param>
         /// <param name="fileModelMapper">The fileModelMapper<see cref="FileModelMapper"/>.</param>
-        public FileController(FileService fileService, FileModelMapper fileModelMapper)
+        public FileController(FileRepository fileService, FileModelMapper fileModelMapper)
         {
             mFileService = fileService;
             mFileModelMapper = fileModelMapper;

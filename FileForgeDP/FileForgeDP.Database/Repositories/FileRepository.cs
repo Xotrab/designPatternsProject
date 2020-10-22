@@ -5,9 +5,9 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Defines the <see cref="FileService" />.
+    /// Defines the <see cref="FileRepository" />.
     /// </summary>
-    public class FileService
+    public class FileRepository
     {
         /// <summary>
         /// Defines the mFiles.
@@ -15,10 +15,10 @@
         private readonly IMongoCollection<FileModel> mFiles;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileService"/> class.
+        /// Initializes a new instance of the <see cref="FileRepository"/> class.
         /// </summary>
         /// <param name="settings">The settings<see cref="IFileForgeDatabaseSettings"/>.</param>
-        public FileService(IFileForgeDatabaseSettings settings)
+        public FileRepository(IFileForgeDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);

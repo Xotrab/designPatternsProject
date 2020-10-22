@@ -38,7 +38,7 @@ namespace FileForgeDP
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ExampleRepository>();
+ 
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -54,7 +54,7 @@ namespace FileForgeDP
                 sp.GetRequiredService<IOptions<FileForgeDatabaseSettings>>().Value);
 
             services.AddScoped<FileModelMapper>();
-            services.AddSingleton<FileService>();
+            services.AddSingleton<FileRepository>();
 
             // Set max size for uploaded files, since default is 1024 bytes :(
 
