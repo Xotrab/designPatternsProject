@@ -29,6 +29,13 @@ namespace FileForgeDP
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.Configure<FileForgeDatabaseSettings>
+                (Configuration.GetSection(nameof(FileForgeDatabaseSettings)));
+
+            services.AddSingleton<IFileForgeDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<FileForgeDatabaseSettings>>().Value);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
