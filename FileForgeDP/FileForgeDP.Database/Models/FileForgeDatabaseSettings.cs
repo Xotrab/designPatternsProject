@@ -11,9 +11,15 @@
         public string CollectionName { get; set; }
 
         /// <summary>
+        /// Gets or sets the WorkspaceCollectionName
+        /// </summary>
+        public string WorkspaceCollectionName { get; set; }
+
+        /// <summary>
         /// Gets or sets the ConnectionString.
         /// </summary>
         public string ConnectionString { get; set; }
+
 
         /// <summary>
         /// Gets or sets the DatabaseName.
@@ -30,6 +36,8 @@
         /// Gets or sets the CollectionName.
         /// </summary>
         string CollectionName { get; set; }
+
+        string WorkspaceCollectionName { get; set; }
 
         /// <summary>
         /// Gets or sets the ConnectionString.
