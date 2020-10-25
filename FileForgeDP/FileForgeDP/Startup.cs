@@ -2,7 +2,7 @@ namespace FileForgeDP
 {
     using FileForgeDP.Database;
     using FileForgeDP.Database.Models;
-    using FileForgeDP.Database.Services;
+    using FileForgeDP.Database.Repositories;
     using FileForgeDP.Mappers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -54,7 +54,10 @@ namespace FileForgeDP
                 sp.GetRequiredService<IOptions<FileForgeDatabaseSettings>>().Value);
 
             services.AddScoped<FileModelMapper>();
+            services.AddScoped<WorkspaceModelMapper>();
+
             services.AddSingleton<FileRepository>();
+            services.AddSingleton<WorkspaceRepository>();
 
             // Set max size for uploaded files, since default is 1024 bytes :(
 
