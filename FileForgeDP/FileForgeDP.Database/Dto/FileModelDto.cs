@@ -30,6 +30,8 @@
         /// <summary>
         /// Gets or sets the File.
         /// </summary>
-        public IFormFile File { get; set; }
+        public string File { get; set; }
+
+        public string ContentType { get; set; }
     }
 }

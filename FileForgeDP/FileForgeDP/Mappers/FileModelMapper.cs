@@ -4,6 +4,8 @@
     using FileForgeDP.Database.Dto;
     using FileForgeDP.Database.Models;
     using FileForgeDP.Extensions;
+    using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Defines the <see cref="FileModelMapper" />.
@@ -23,8 +25,8 @@
             mMapper = new MapperConfiguration(x =>
            {
                x.CreateMap<FileModelDto, FileModel>()
-                .ForMember(model => model.ContentType, map => map.MapFrom(dto => dto.File == null ? string.Empty : dto.File.ContentType))
-                .ForMember(model => model.File, map => map.MapFrom(dto => dto.File.ToBytes().Result))
+                .ForMember(model => model.ContentType, map => map.MapFrom(dto => dto.File == null ? string.Empty : dto.ContentType))
+                .ForMember(model => model.File, map => map.MapFrom(dto => Encoding.ASCII.GetBytes(dto.File)))
                 .ReverseMap()
                 .ForMember(dto => dto.File, map => map.MapFrom(model => model.File.ToIFormFIle(model.FileName)));
            }).CreateMapper();

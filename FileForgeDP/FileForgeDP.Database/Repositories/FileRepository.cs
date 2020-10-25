@@ -1,4 +1,4 @@
-﻿namespace FileForgeDP.Database.Services
+﻿namespace FileForgeDP.Database.Repositories
 {
     using FileForgeDP.Database.Models;
     using MongoDB.Driver;
@@ -74,5 +74,10 @@
         /// <param name="id">The id<see cref="string"/>.</param>
         public void Remove(string id) =>
             mFiles.DeleteOne(file => file.Id == id);
+
+        public void RemoveSet(string groupId)
+        {
+            mFiles.DeleteMany(file => file.GroupId == groupId);
+        }
     }
 }
