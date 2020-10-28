@@ -39,6 +39,9 @@ namespace FileForgeDP.Database.Repositories
         public WorkspaceModel Get(string Id) =>
             mWorkspaces.Find(workspace => workspace.Id == Id).FirstOrDefault();
 
+        // Get the File with fileId from workspace with workspaceId
+        public FileModel GetFile(string workspaceId, string fileId) => mFileService.Get(workspaceId, fileId);
+
 
         public void Update(string id, WorkspaceModel workspaceModel) =>
             mWorkspaces.ReplaceOne(workspace => workspace.Id == id, workspaceModel);
@@ -47,6 +50,11 @@ namespace FileForgeDP.Database.Repositories
         {
             mFileService.RemoveSet(id);
             mWorkspaces.DeleteOne(workspace => workspace.Id == id);
+        }
+
+        public void RemoveOne(string workspaceId, string fileId)
+        {
+            mFileService.Remove(workspaceId, fileId);
         }
 
     }

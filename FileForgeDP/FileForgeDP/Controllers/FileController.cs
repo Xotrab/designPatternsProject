@@ -58,13 +58,13 @@
         /// </summary>
         /// <param name="id">The id<see cref="string"/>.</param>
         /// <returns>The <see cref="Task{CreatedResult}"/>.</returns>
-        [HttpGet]
-        [Route("files")]
-        public async Task<CreatedResult> GetFileModel(string id)
-        {
-            var result = mFileService.Get(id);
+        //[HttpGet]
+        //[Route("files")]
+        //public async Task<CreatedResult> GetFileModel(string id)
+        //{
+        //    var result = mFileService.Get(id);
 
-            return new CreatedResult("xd de nie mam jeszcze api", result);
-        }
+        //    return new CreatedResult("xd de nie mam jeszcze api", result);
+        //}
     }
 }

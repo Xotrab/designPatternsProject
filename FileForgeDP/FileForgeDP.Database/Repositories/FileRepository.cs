@@ -50,8 +50,8 @@
         /// </summary>
         /// <param name="Id">The Id<see cref="string"/>.</param>
         /// <returns>The <see cref="FileModel"/>.</returns>
-        public FileModel Get(string Id) =>
-            mFiles.Find(file => file.Id == Id).FirstOrDefault();
+        public FileModel Get(string workspaceId,string fileId) =>
+            mFiles.Find(file => file.Id == fileId & file.GroupId == workspaceId).FirstOrDefault(); 
 
         /// <summary>
         /// The Update.
@@ -74,6 +74,9 @@
         /// <param name="id">The id<see cref="string"/>.</param>
         public void Remove(string id) =>
             mFiles.DeleteOne(file => file.Id == id);
+
+        public void Remove(string workspaceId, string fileId) =>
+            mFiles.DeleteOne(file => file.Id == fileId && file.GroupId == workspaceId);
 
         public void RemoveSet(string groupId)
         {
