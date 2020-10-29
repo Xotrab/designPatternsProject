@@ -1,6 +1,8 @@
 ﻿namespace FileForgeDP.Database.Repositories
 {
+    using FileForgeDP.Database.Builders;
     using FileForgeDP.Database.Models;
+    using MongoDB.Bson;
     using MongoDB.Driver;
     using System.Collections.Generic;
 
@@ -42,8 +44,9 @@
         /// The Get.
         /// </summary>
         /// <returns>The <see cref="List{FileModel}"/>.</returns>
-        public List<FileModel> Get() =>
-            mFiles.Find(file => true).ToList();
+        public List<FileModel> Get(string workspaceId) =>
+            mFiles.Find(file => file.GroupId == workspaceId).ToList();
+
 
         /// <summary>
         /// The Get.
@@ -58,8 +61,21 @@
         /// </summary>
         /// <param name="id">The id<see cref="string"/>.</param>
         /// <param name="fileModel">The fileModel<see cref="FileModel"/>.</param>
-        public void Update(string id, FileModel fileModel) =>
-            mFiles.ReplaceOne(file => file.Id == id, fileModel);
+        public void Update(string id, FileModel fileModel)
+        {
+
+            //var filter = Builders<FileModel>.Filter.Eq("id", id);
+            var update = MongoUpdateQueryBuilder<FileModel>.Builder();
+            if (fileModel.FileName != null )
+            {
+                update.Add("FileName", fileModel.FileName);
+            }
+            if(fileModel.Description != null)
+            {
+                update.Add("Description", fileModel.Description);
+            }
+            mFiles.UpdateOne(file => file.Id == fileModel.Id, update.Build());
+        }
 
         /// <summary>
         /// The Remove.
