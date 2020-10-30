@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { UsersManagementComponent } from './admin-panel/users-management/users-management.component';
+import { WorkspacesManagementComponent } from './admin-panel/workspaces-management/workspaces-management.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -13,7 +15,18 @@ import { WorkspaceComponent } from './workspaces-overview/workspace-component/wo
 import { WorkspacesOverviewComponent } from './workspaces-overview/workspaces-overview.component';
 
 @NgModule({
-    declarations: [AppComponent, NavMenuComponent, HomeComponent, LoginFormComponent, RegisterFormComponent, WorkspacesOverviewComponent, WorkspaceComponent, AdminPanelComponent],
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        HomeComponent,
+        LoginFormComponent,
+        RegisterFormComponent,
+        WorkspacesOverviewComponent,
+        WorkspaceComponent,
+        AdminPanelComponent,
+        UsersManagementComponent,
+        WorkspacesManagementComponent,
+    ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
