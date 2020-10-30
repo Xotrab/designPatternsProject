@@ -1,0 +1,19 @@
+.home-page-container {
+    display: grid;
+    grid-template-columns: auto, auto;
+    grid-template-rows: auto, auto;
+
+    .main-page-graphic-container {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        place-self: center;
+    }
+
+    .login-form-container {
+        grid-column-start: 2;
+        grid-row-start: 2;
+        place-self: center;
+    }
+}
