@@ -13,6 +13,12 @@ import { RegisterFormComponent } from './home/register-form/register-form.compon
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { WorkspaceComponent } from './workspaces-overview/workspace-component/workspace.component';
 import { WorkspacesOverviewComponent } from './workspaces-overview/workspaces-overview.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -32,6 +38,12 @@ import { WorkspacesOverviewComponent } from './workspaces-overview/workspaces-ov
         HttpClientModule,
         FormsModule,
         AppRoutingModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatIconModule,
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

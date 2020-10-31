@@ -1,0 +1,21 @@
+.login-form-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto, auto, auto;
+
+    .login-form {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        place-self: center;
+    }
+    .password-form {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        place-self: center;
+    }
+    .oaut-icons {
+        grid-row-start: 3;
+        grid-row-end: 4;
+        place-self: center;
+    }
+}
