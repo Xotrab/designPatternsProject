@@ -18,6 +18,7 @@ namespace FileForgeDP
     /// </summary>
     public class Startup
     {
+        private readonly string mCorsPolicy = "Konrad to powazny programista";
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -68,6 +69,13 @@ namespace FileForgeDP
             });
 
             services.AddControllers();
+            services.AddCors(x=>x.AddPolicy(mCorsPolicy, builder =>
+                {
+                    builder.SetIsOriginAllowed(_ => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                }));
         }
 
         /// <summary>
@@ -96,7 +104,7 @@ namespace FileForgeDP
             }
 
             app.UseRouting();
-
+            app.UseCors(mCorsPolicy);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -116,6 +124,7 @@ namespace FileForgeDP
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }

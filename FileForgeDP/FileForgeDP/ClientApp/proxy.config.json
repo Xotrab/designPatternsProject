@@ -1,0 +1,3 @@
+{
+    "/_configuration/*" : {"target" : "http://localhost:27899"}
+}
