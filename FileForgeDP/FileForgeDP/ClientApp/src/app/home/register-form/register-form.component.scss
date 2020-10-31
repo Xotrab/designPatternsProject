@@ -1,0 +1,34 @@
+@import '../../../_variables.scss';
+
+.registration-fields-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+
+    background-color: $login-backround-color;
+    border-top: 2rem solid $primary;
+    // padding: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 5%;
+
+    ::ng-deep .mat-form-field-label {
+        color: $primary !important;
+    }
+    ::ng-deep input.mat-input-element {
+        color: $white-color;
+        caret-color: $primary !important;
+    }
+    ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
+        background-color: $primary;
+    }
+    .mat-icon {
+        color: $primary !important;
+    }
+    .register-button-container {
+        align-self: flex-end;
+    }
+}
