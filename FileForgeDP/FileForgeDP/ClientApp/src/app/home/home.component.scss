@@ -1,19 +1,42 @@
+@import '../../_variables.scss';
+
 .home-page-container {
     display: grid;
-    grid-template-columns: auto, auto;
-    grid-template-rows: auto, auto;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100px 33% 33%;
 
     .main-page-graphic-container {
         grid-column-start: 1;
         grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 2;
+        grid-row-start: 2;
+
         place-self: center;
+        opacity: 0;
+        &:hover {
+            opacity: 0.2;
+        }
     }
 
-    .login-form-container {
+    .auth-container {
         grid-column-start: 2;
         grid-row-start: 2;
-        place-self: center;
+        grid-row-end: 3;
+        align-self: start;
+        justify-self: center;
+        display: flex;
+        flex-direction: column;
+
+        .login-form-container {
+        }
+
+        .change-auth {
+            color: $primary;
+            align-self: flex-start;
+
+            &:hover {
+                cursor: pointer;
+                color: white;
+            }
+        }
     }
 }

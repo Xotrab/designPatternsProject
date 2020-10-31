@@ -2,12 +2,25 @@
 
 
     <div class="main-page-graphic-container">
-        <img src="https://vignette.wikia.nocookie.net/przygody-leopolda/images/0/05/Mietek.jpg/revision/latest?cb=20190718012721&path-prefix=pl" >
+        <img [src]="turboImg" >
     </div>
 
-    <div class="login-form-container">
-        <app-login-form></app-login-form>
+    <div class="auth-container">
+        
+            <div class="login-form-container" *ngIf="link != links[0]">
+                <app-login-form></app-login-form>
+            </div>
+            
+            <div *ngIf="link == links[0]">
+                <app-register-form></app-register-form>
+            </div>
+        
+
+        <div class="change-auth">
+            <a (click)="changeLinkAndComponent()">{{link}}</a>
+        </div>
     </div>
+    
 
 
 
