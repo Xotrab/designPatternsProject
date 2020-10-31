@@ -1,21 +1,51 @@
+@import '../../../_variables.scss';
+
 .login-form-container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto, auto, auto;
-
+    background-color: $login-backround-color;
+    border-top: 2rem solid $primary;
+    // padding: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 5%;
+    /* input color class */
+    /* Change label color on focused */
+    ::ng-deep .mat-form-field-label {
+        color: $primary !important;
+    }
+    ::ng-deep input.mat-input-element {
+        color: $white-color;
+    }
+    .mat-icon {
+        color: $primary !important;
+    }
     .login-form {
         grid-row-start: 1;
         grid-row-end: 2;
-        place-self: center;
+        align-self: center;
+        justify-self: start;
+        // .mat-form-field-appearance-legacy .mat-form-field-label {
+        //     color: white !important ;
+        // }
     }
     .password-form {
         grid-row-start: 2;
         grid-row-end: 3;
-        place-self: center;
+        align-self: center;
+        justify-self: start;
     }
     .oaut-icons {
         grid-row-start: 3;
         grid-row-end: 4;
-        place-self: center;
+    }
+
+    .login-button-container {
+        grid-row-start: 3;
+        justify-self: end;
+        align-self: center;
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-login-form',
@@ -9,7 +9,11 @@ export class LoginFormComponent implements OnInit {
     hide: boolean = true;
 
     login: string = '';
+    password: string = '';
+
     constructor() {}
 
     ngOnInit(): void {}
+
+    onSubmit() {}
 }

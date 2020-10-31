@@ -1,14 +1,14 @@
 <div class="login-form-container">
 
     <mat-form-field class="login-form">
-        <mat-label>Clearable input</mat-label>
-        <input matInput type="text" [(ngModel)]="login">
-        <button mat-button *ngIf="login" matSuffix mat-icon-button aria-label="Clear" (click)="login=''">
+        <mat-label>Login</mat-label>
+        <input  matInput type="text" [(ngModel)]="login">
+        <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="login=''">
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>
    
-<!--    
+   
     <mat-form-field class="password-form">
         <mat-label>Enter your password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'">
@@ -16,7 +16,11 @@
             [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-    </mat-form-field> -->
+    </mat-form-field>
 
+
+    <div class="login-button-container">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Login</button>
+    </div>
    
 </div>
