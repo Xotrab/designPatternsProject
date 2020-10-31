@@ -19,6 +19,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -44,6 +46,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatRippleModule,
         MatIconModule,
         BrowserAnimationsModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
