@@ -18,9 +18,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sidebar/workspace-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +38,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         AdminPanelComponent,
         UsersManagementComponent,
         WorkspacesManagementComponent,
+        WorkspaceSidebarComponent,
+        WorkspaceComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,6 +53,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatIconModule,
         BrowserAnimationsModule,
         MatToolbarModule,
+        MatSidenavModule,
+        MatDividerModule,
+        MatListModule,
         ReactiveFormsModule,
     ],
     providers: [],

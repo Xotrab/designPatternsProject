@@ -1,0 +1,19 @@
+@import '../../_variables.scss';
+
+.drawer {
+    width: 100%;
+    height: 100%;
+
+    .sidenav-container {
+        width: 20%;
+        background-color: $login-backround-color;
+    }
+
+    .drawer-content-container {
+        background-color: $background;
+        width: 80%;
+    }
+}
+.workspace-sidebar {
+    width: 100%;
+}

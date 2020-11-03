@@ -1,1 +1,8 @@
-<p>workspaces-overview works!</p>
+<mat-drawer-container class="drawer">
+    <mat-drawer  class="sidenav-container" mode="side" opened>
+        <app-workspace-sidebar (workspaceChangeEvent)="onWorkspaceChange($event)"></app-workspace-sidebar>
+    </mat-drawer>
+    <mat-drawer-content class="drawer-content-container">
+        <app-workspace [chosenWorkspace]="currentWorkspace"></app-workspace>
+    </mat-drawer-content>
+</mat-drawer-container>

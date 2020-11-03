@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { WorkspaceService } from '../services/workspace.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { WorkspaceModelDto } from '../models/workspace/workspace-dto';
 
 @Component({
     selector: 'app-workspaces-overview',
@@ -7,20 +7,11 @@ import { WorkspaceService } from '../services/workspace.service';
     styleUrls: ['./workspaces-overview.component.scss'],
 })
 export class WorkspacesOverviewComponent implements OnInit {
-    constructor(private konradKurwaJest: WorkspaceService) {}
+    constructor() {}
+    public currentWorkspace: WorkspaceModelDto = null;
 
-    ngOnInit(): void {
-        this.konradKurwaJest.getWorkspacesOverview('5f99cd14985e3f043152b51b').subscribe(
-            (result) => {
-                console.log('Konrad to ziomek');
-                console.log(JSON.stringify(result));
-            },
-            (error) => {
-                console.log(error);
-            },
-            () => {
-                console.log('Konrad jednak prawdomówny');
-            }
-        );
+    ngOnInit(): void {}
+    public onWorkspaceChange(event: WorkspaceModelDto) {
+        this.currentWorkspace = event;
     }
 }
