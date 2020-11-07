@@ -10,11 +10,13 @@ $app-warn: mat-palette($mat-pink);
 $primary: mat-color($app-primary);
 $accent: mat-color($app-accent);
 $warn: mat-color($app-warn);
-$background: #212123;
+$background: #2d2d30;
 
 // $background: #24292e;
 $login-backround-color: rgb(68, 68, 68);
 $white-color: white;
+$gray-color: rgb(68, 68, 68);
+$gray-highlight: rgb(50, 50, 52);
 
 $theme: mat-light-theme(
     (
@@ -25,6 +27,11 @@ $theme: mat-light-theme(
         ),
     )
 );
+
+$workspace-topbar-padding: 1rem;
+$workspace-topbar-height: 5rem;
+$workspace-border-size: 0.05rem;
+$workspace-item-height: 5rem;
 
 // $theme: mat-light-theme($app-primary, $app-accent);
 @include angular-material-theme($theme);
