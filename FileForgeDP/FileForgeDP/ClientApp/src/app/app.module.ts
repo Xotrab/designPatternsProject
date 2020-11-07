@@ -21,6 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -56,6 +59,9 @@ import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sideb
         MatSidenavModule,
         MatDividerModule,
         MatListModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
         ReactiveFormsModule,
     ],
     providers: [],
