@@ -26,10 +26,8 @@ export class WorkspaceSidebarComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
-            },
-            () => {
-                console.log();
             }
+            
         );
         this.workspaces = [
             { id: '1', name: 'dupawka' },
