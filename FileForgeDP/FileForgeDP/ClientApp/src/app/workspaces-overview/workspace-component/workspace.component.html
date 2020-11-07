@@ -1,14 +1,20 @@
-
 <div [ngStyle]="tableDisplay" class="mat-elevation-z8">
 
-    <button> Add File </button>
+    <div class="workspace-top-bar">
+        
+        <mat-form-field class="search-field">
+            <mat-label>Search file</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Search file</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-    </mat-form-field>
+        <div class="button-wrapper">
+            <button mat-raised-button color="primary"> Add File </button>
+        </div>
 
-    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+    </div>
+
+
+    <table class="workspace-content-table" mat-table [dataSource]="dataSource" matSort multiTemplateDataRows >
 
         <!-- File name column -->
         <ng-container matColumnDef="fileName">
@@ -36,15 +42,15 @@
 
         <!-- Expanded Detail -->
         <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let file" [attr.colspan]="columnsToDisplay.length">
+            <td mat-cell *matCellDef="let file" [attr.colspan]="columnsToDisplay.length" class="work_or_ill_cry">
               <div class="file-detail"
                    [@detailExpand]="file == expandedElement ? 'expanded' : 'collapsed'">
                 <div class="detail-description">
                   {{file.description}}
                 </div>
-                <button> Remove </button>
-                <button> Update </button>
-                <button> Download </button>
+                <button mat-raised-button color="primary"> Remove </button>
+                <button mat-raised-button color="primary"> Update </button>
+                <button mat-raised-button color="primary">  Download </button>
 
               </div>
             </td>
@@ -70,7 +76,11 @@
     </table>
 
 
-    <mat-paginator #paginator  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons ></mat-paginator>
+    <mat-paginator #paginator  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons class="workspace-paginator" ></mat-paginator>
+</div>
+<div *ngIf="tableDisplay.display!='block'" >
+    <div class="workspace-top-bar"></div>
+    <h1 style="color:white">Jebać disa</h1>
 </div>
 
 

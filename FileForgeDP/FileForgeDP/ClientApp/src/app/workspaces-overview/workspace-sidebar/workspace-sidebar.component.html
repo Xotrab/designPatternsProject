@@ -1,15 +1,19 @@
 <div class="sidenav-container-inner">
-    <h2>
-        Your workspaces
-    </h2>
-    
+   
+    <div class="sidebar-top-bar">
+        <h2>
+            Your workspaces
+        </h2>
+   </div>
+
+
     <mat-list class="list-item-container">
-        <mat-divider></mat-divider>
+        
         <div  *ngFor="let workspace of workspaces; let i=index" (click)="onClick(i)">
         <mat-list-item  [ngClass]="(highlighted == i) ? 'highlighted-item' : 'item' ">
                 {{workspace.name}}
         </mat-list-item>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider> -->
         </div>
     </mat-list>
 

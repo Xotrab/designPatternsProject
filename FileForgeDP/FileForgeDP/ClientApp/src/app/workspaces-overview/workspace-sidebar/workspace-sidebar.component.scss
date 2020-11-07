@@ -7,12 +7,9 @@
 
     flex-direction: column;
     align-items: center;
-    h2 {
-        margin: 0px;
-        padding: 0.5rem;
-        color: $white-color;
-    }
     .item {
+        height: $workspace-item-height;
+        border-bottom: solid $gray-highlight $workspace-border-size;
         color: white;
         width: 100%;
         &:hover {
@@ -21,6 +18,8 @@
         }
     }
     .highlighted-item {
+        width: 100%;
+        height: $workspace-item-height;
         background-color: $primary;
         color: white;
         width: 100%;
@@ -28,5 +27,16 @@
     .list-item-container {
         padding-top: 0px !important;
         width: 100%;
+    }
+    .sidebar-top-bar {
+        width: 90%;
+        height: $workspace-topbar-height;
+        padding-top: $workspace-topbar-padding;
+        padding-bottom: $workspace-topbar-padding;
+        h2 {
+            margin: 0rem;
+            padding: 0rem;
+            color: $white-color;
+        }
     }
 }

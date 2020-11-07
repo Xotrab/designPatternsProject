@@ -3,15 +3,18 @@
 .drawer {
     width: 100%;
     height: 100%;
+    border: hidden;
 
     .sidenav-container {
-        width: 20%;
+        border: none !important;
+        width: 15%;
         background-color: $login-backround-color;
     }
 
     .drawer-content-container {
+        border: none !important;
         background-color: $background;
-        width: 80%;
+        width: 85%;
     }
 }
 .workspace-sidebar {
