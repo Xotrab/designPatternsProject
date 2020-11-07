@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  workspacePageSize: [10,30,50]
 };
