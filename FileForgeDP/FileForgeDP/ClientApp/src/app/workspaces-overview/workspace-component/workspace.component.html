@@ -1,2 +1,76 @@
-<div *ngIf="chosenWorkspace != null">{{chosenWorkspace.name}}</div>
-<p style="color:white;">TEKST</p>
+
+<div [ngStyle]="tableDisplay" class="mat-elevation-z8">
+
+    <button> Add File </button>
+
+    <mat-form-field>
+        <mat-label>Search file</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+        <!-- File name column -->
+        <ng-container matColumnDef="fileName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> File </th>
+            <td mat-cell *matCellDef="let file"> {{file.fileName}} </td>
+        </ng-container>
+
+        <!-- Content type column -->
+        <ng-container matColumnDef="contentType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let file"> <i class="far fa-file"></i> {{file.contentType}} </td>
+        </ng-container>
+
+        <!-- LastModificationDate column -->
+        <ng-container matColumnDef="lastModificationDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last modified </th>
+            <td mat-cell *matCellDef="let file"> {{file.lastModificationDate}} </td>
+        </ng-container>
+
+        <!-- LastModificationBy column -->
+        <ng-container matColumnDef="lastModificationBy">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modified by </th>
+            <td mat-cell *matCellDef="let file"> {{file.lastModifiedBy}} </td>
+        </ng-container>
+
+        <!-- Expanded Detail -->
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let file" [attr.colspan]="columnsToDisplay.length">
+              <div class="file-detail"
+                   [@detailExpand]="file == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="detail-description">
+                  {{file.description}}
+                </div>
+                <button> Remove </button>
+                <button> Update </button>
+                <button> Download </button>
+
+              </div>
+            </td>
+          </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"
+            class="element-row"
+            [class.expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === row ? null : row">
+        </tr>
+
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+
+    </table>
+
+
+    <mat-paginator #paginator  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons ></mat-paginator>
+</div>
+
+
