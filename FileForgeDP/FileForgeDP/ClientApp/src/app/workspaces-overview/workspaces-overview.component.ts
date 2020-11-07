@@ -8,7 +8,7 @@ import { WorkspaceModelDto } from '../models/workspace/workspace-dto';
 })
 export class WorkspacesOverviewComponent implements OnInit {
     constructor() {}
-    public currentWorkspace: WorkspaceModelDto = null;
+    public currentWorkspace: WorkspaceModelDto = {id:null,name:""};
 
     ngOnInit(): void {}
     public onWorkspaceChange(event: WorkspaceModelDto) {
