@@ -9,6 +9,7 @@
     align-items: center;
     .item {
         height: $workspace-item-height;
+        font-size: 1.25rem;
         border-bottom: solid $gray-highlight $workspace-border-size;
         color: white;
         width: 100%;
@@ -19,6 +20,7 @@
     }
     .highlighted-item {
         width: 100%;
+        font-size: 1.25rem;
         height: $workspace-item-height;
         background-color: $primary;
         color: white;
@@ -36,6 +38,7 @@
         h2 {
             margin: 0rem;
             padding: 0rem;
+            font-size: 1.5rem;
             color: $white-color;
         }
     }

@@ -63,7 +63,8 @@ export class WorkspaceComponent implements OnInit, OnChanges {
                 {
                     id: '2',
                     groupId: '1',
-                    description: 'opis tak o',
+                    description:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie felis vel leo egestas congue. Ut eu faucibus nulla, non egestas nisi. Aliquam facilisis mattis dolor sed lobortis. Sed eget gravida urna, et vehicula justo. In hac habitasse platea dictumst. Duis vel vulputate quam, vitae porttitor metus. Integer justo quam, semper eu faucibus quis, vulputate vitae nulla. Maecenas scelerisque luctus tellus, sed venenatis neque cursus nec. Quisque in elit et turpis sodales tincidunt nec a risus. Donec vitae dui vel turpis hendrerit sagittis nec vel nunc. Nunc euismod vehicula diam, ac gravida metus auctor at. In a dapibus dui. Aliquam molestie auctor porttitor. Szanować Gierczaka ziomka Polaka, szanownego obywatela. A Bartosz to chuj.',
                     fileName: 'jaranko2',
                     file: 'base64',
                     contentType: 'png',

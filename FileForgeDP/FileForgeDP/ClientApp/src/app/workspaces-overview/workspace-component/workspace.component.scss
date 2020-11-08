@@ -1,8 +1,29 @@
 @import '../../../_variables.scss';
 
-.element-row td {
-    border-bottom-width: 0;
+.workspace-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    background: $login-backround-color;
+    height: $workspace-topbar-height;
+    padding-top: $workspace-topbar-padding;
+    padding-bottom: $workspace-topbar-padding;
+
+    .search-field {
+        margin-left: 2rem;
+    }
+    .button-wrapper {
+        margin-right: 1rem;
+    }
 }
+::ng-deep .mat-form-field-label {
+    color: $white-color !important;
+}
+
+// .element-row td {
+//      border-bottom: 0;
+// }
 
 .file-detail {
     overflow: hidden;
@@ -13,62 +34,79 @@
     padding: 16px;
 }
 
-.workspace-top-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    background: $login-backround-color;
-    height: $workspace-topbar-height;
-    padding-top: $workspace-topbar-padding;
-    padding-bottom: $workspace-topbar-padding;
-}
-::ng-deep .mat-form-field-label {
-    color: $white-color !important;
-}
-.search-field {
-    margin-left: 2rem;
-}
-.button-wrapper {
-    margin-right: 1rem;
-}
 .workspace-content-table {
     width: 100%;
     background: $background;
     th {
+        font-size: 1.25rem;
         height: $workspace-item-height;
         color: $primary;
         border-bottom: solid $primary $workspace-border-size;
         //border-top: solid $primary $workspace-border-size;
     }
     td {
+        font-size: 1.25rem;
         color: $white-color;
         //height: $workspace-item-height;
-        border-bottom: solid $gray-color $workspace-border-size !important;
-    }
-    td.work_or_ill_cry {
-        border-bottom: 0;
+        border-bottom: solid $gray-color $workspace-border-size;
+        //border-bottom: none !important;
     }
     tr {
         height: $workspace-item-height;
     }
     tr.detail-row {
-        border-bottom-width: 0;
         height: 0;
     }
     tr.element-row:not(.expanded-row):hover {
         background: $gray-highlight;
     }
 
-    tr.element-row:active {
+    tr.element-row:not(.expanded-row):active {
         background: $gray-highlight;
+    }
+}
+.expanded-row {
+    background: $light-gray-highlight;
+    border-bottom: none !important;
+}
+.file-detail {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    p {
+        padding-top: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .detail-description {
+        width: 90%;
+        padding: 0.5rem;
+        margin-left: 7rem;
+    }
+    .buttons-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        padding-bottom: 2rem;
+        .detail-control-buttons {
+            display: flex;
+            flex-direction: row;
+            width: 20%;
+            justify-content: space-evenly;
+        }
     }
 }
 .workspace-paginator {
     background: $background;
     color: $white-color;
 }
-
+.detail-contents {
+    //border-bottom: solid $gray-color $workspace-border-size;
+    padding: 0;
+    border-bottom: none !important;
+    background: $light-gray-highlight;
+    background: $light-gray-highlight;
+}
 ::ng-deep .mat-select-value {
     color: $white-color;
 }
