@@ -33,5 +33,10 @@
         public string File { get; set; }
 
         public string ContentType { get; set; }
+
+        public string LastModificationDate { get; set; }
+
+        public string LastModifiedBy { get; set; }
+
     }
 }
