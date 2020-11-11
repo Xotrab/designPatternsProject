@@ -12,6 +12,7 @@
 
     .search-field {
         margin-left: 2rem;
+        color: $white-color;
     }
     .button-wrapper {
         margin-right: 1rem;
@@ -86,7 +87,7 @@
     .buttons-wrapper {
         width: 100%;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         padding-bottom: 2rem;
         .detail-control-buttons {
             display: flex;
