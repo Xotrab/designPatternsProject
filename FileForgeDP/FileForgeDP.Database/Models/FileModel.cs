@@ -40,6 +40,10 @@
         /// </summary>
         public byte[] File { get; set; }
 
+        public string LastModificationDate { get; set; }
+
+        public string LastModifiedBy { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileModel"/> class.
         /// </summary>
