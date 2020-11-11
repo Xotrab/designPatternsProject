@@ -1,3 +1,4 @@
+<div [hidden]="!isDataLoaded">
 <div [ngStyle]="tableDisplay" class="mat-elevation-z8">
 
     <div class="workspace-top-bar">
@@ -8,7 +9,7 @@
         </mat-form-field>
 
         <div class="button-wrapper">
-            <button mat-raised-button color="primary"> Add File </button>
+            <button mat-raised-button color="primary" (click)="openDialog()"> Add File </button>
         </div>
 
     </div>
@@ -82,9 +83,11 @@
 
     <mat-paginator #paginator  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons class="workspace-paginator" ></mat-paginator>
 </div>
+</div>
 <div *ngIf="tableDisplay.display!='block'" >
     <div class="workspace-top-bar"></div>
     <h1 style="color:white">Jebać disa</h1>
 </div>
+
 
 
