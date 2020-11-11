@@ -58,7 +58,7 @@ namespace FileForgeDP.Controllers
 
         [HttpGet]
         [Route("workspaces/{workspaceId}/files")]
-        public async Task<ActionResult<List<FileModelDto>>> GetAllWorkspaceFiles(string workspaceId)
+        public  ActionResult<List<FileModelDto>> GetAllWorkspaceFiles(string workspaceId)
         {
             var result = mFileRepository.Get(workspaceId);
 
