@@ -24,10 +24,13 @@ import { MatListModule } from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sidebar/workspace-sidebar.component';
+import { FileUploadDialogComponent } from './workspaces-overview/workspace-component/file-upload-dialog/file-upload-dialog.component';
+import { FileDndDirective } from './directives/file-dnd.directive';
 
 @NgModule({
     declarations: [
@@ -43,6 +46,8 @@ import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sideb
         WorkspacesManagementComponent,
         WorkspaceSidebarComponent,
         WorkspaceComponent,
+        FileUploadDialogComponent,
+        FileDndDirective
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,6 +67,7 @@ import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sideb
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatDialogModule,
         ReactiveFormsModule,
     ],
     providers: [],
