@@ -1,0 +1,13 @@
+@import '../../../../_variables.scss';
+
+
+::ng-deep.mat-dialog-container {
+    background: $gray-highlight !important;
+    color: $white-color !important;
+}
+
+.dropzone {
+    &.hovering {
+        border: 2px solid $primary;
+    }
+}

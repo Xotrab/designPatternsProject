@@ -1,0 +1,21 @@
+<h2> Drag files here</h2>
+<div class="dropzone" appFileDnd (filesDropped) = "handleDrop($event)" (filesHovered) = "toggleHover($event)" [class.hovering] = "isHovering">
+    
+<mat-list>
+
+    <div *ngFor = "let file of fileList; let i=index">
+        <mat-list-item>
+            {{file.fileName}}
+            <i class="far fa-file"></i>
+
+            <div (click)="removeFromUploadBuffer(i)">
+            <i class="fas fa-times"></i>
+            </div>
+
+        </mat-list-item>
+    </div>
+
+</mat-list>
+</div>
+
+<button mat-raised-button color="primary" (click)="uploadFiles()">Upload</button>
