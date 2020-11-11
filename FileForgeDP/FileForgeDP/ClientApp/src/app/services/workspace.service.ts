@@ -8,7 +8,9 @@ import { environment } from 'src/environments/environment';
 export class WorkspaceService {
     constructor(private http: HttpClient) {}
 
-    getWorkspacesOverview(id: string) {
-        return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
+
+
+     getWorkspacesOverview(id: String) {
+         return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
     }
 }
