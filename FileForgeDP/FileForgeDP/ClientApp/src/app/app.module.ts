@@ -21,7 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -47,7 +48,7 @@ import { FileDndDirective } from './directives/file-dnd.directive';
         WorkspaceSidebarComponent,
         WorkspaceComponent,
         FileUploadDialogComponent,
-        FileDndDirective
+        FileDndDirective,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,6 +70,7 @@ import { FileDndDirective } from './directives/file-dnd.directive';
         MatSortModule,
         MatDialogModule,
         ReactiveFormsModule,
+        MatSnackBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
