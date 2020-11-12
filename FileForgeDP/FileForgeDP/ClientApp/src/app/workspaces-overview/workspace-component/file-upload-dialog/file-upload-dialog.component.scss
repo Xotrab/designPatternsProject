@@ -1,13 +1,90 @@
 @import '../../../../_variables.scss';
+@keyframes shake-animation {
+    10%,
+    90% {
+        transform: translate3d(-0.5px, 0, 0);
+    }
 
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-3px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(3px, 0, 0);
+    }
+}
 
 ::ng-deep.mat-dialog-container {
     background: $gray-highlight !important;
     color: $white-color !important;
 }
+.file-upload-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 
-.dropzone {
-    &.hovering {
-        border: 2px solid $primary;
+    .topbar {
+        font-size: 2rem;
+    }
+    .items-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    .dropzone {
+        border: dashed 2px $bright-gray-color;
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        width: 40rem;
+        height: 15rem;
+        &.hovering {
+            border: 2px solid $primary;
+        }
+        &.shaking {
+            border: 2px solid $red-color;
+            animation-name: shake-animation;
+            animation-duration: 0.5s;
+        }
+        .dialog-message {
+            width: 100%;
+            height: 100%;
+            .text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                p {
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+            color: $bright-gray-color;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            &.hovering {
+                color: $primary;
+            }
+            &.shaking {
+                color: $red-color;
+            }
+        }
+    }
+    .dialog-buttons {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
     }
 }

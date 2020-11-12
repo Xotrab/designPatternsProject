@@ -1,21 +1,38 @@
-<h2> Drag files here</h2>
-<div class="dropzone" appFileDnd (filesDropped) = "handleDrop($event)" (filesHovered) = "toggleHover($event)" [class.hovering] = "isHovering">
-    
-<mat-list>
+<div class="file-upload-dialog-content">
 
-    <div *ngFor = "let file of fileList; let i=index">
-        <mat-list-item>
-            {{file.fileName}}
-            <i class="far fa-file"></i>
+    <div class="topbar">ADD FILES</div>
+    <mat-list>
+        <div  class="items-container">
+            <div class="file-to-upload" *ngFor="let file of fileList; let i=index">
+                <mat-list-item>
+                    {{file.fileName}}
+                    <i class="far fa-file"></i>
+                    <div (click)="removeFromUploadBuffer(i)">
+                        <i class="fas fa-times"></i>
+                    </div>
 
-            <div (click)="removeFromUploadBuffer(i)">
-            <i class="fas fa-times"></i>
+                </mat-list-item>
             </div>
+        </div>
+    </mat-list>
 
-        </mat-list-item>
+    <div class="dropzone" appFileDnd (filesDropped) = "handleDrop($event)" (filesHovered) = "toggleHover($event)" [class.hovering] = "isHovering" [class.shaking]="isShaking">
+        <div class="dialog-message" [class.hovering] = "isHovering" [class.shaking]="isShaking">
+            <div class="text">
+                <p>Drag and drop files here</p>
+                <p>(limit of files: 3)</p>
+            </div>
+            <i class="fas fa-file-upload fa-7x"></i>
+        </div>
+        <!-- <div *ngIf="isEmpty; then message; else files"></div>
+        <ng-template #message>
+        </ng-template>
+        <ng-template #files>
+        </ng-template> -->
+    </div>
+    <div class="dialog-buttons">
+        <button mat-raised-button (click)="onCancel()">cancel</button>
+        <button mat-raised-button color="primary" (click)="uploadFiles()">upload</button>
     </div>
 
-</mat-list>
 </div>
-
-<button mat-raised-button color="primary" (click)="uploadFiles()">Upload</button>
