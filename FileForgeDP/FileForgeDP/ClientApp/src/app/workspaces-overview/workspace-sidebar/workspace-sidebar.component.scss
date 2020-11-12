@@ -3,7 +3,7 @@
 .sidenav-container-inner {
     width: 100%;
     display: flex;
-    background-color: $login-backround-color;
+    background-color: $gray-color;
 
     flex-direction: column;
     align-items: center;
@@ -31,10 +31,12 @@
         width: 100%;
     }
     .sidebar-top-bar {
-        width: 90%;
+        width: 100%;
+        padding-left: 1rem;
         height: $workspace-topbar-height;
         padding-top: $workspace-topbar-padding;
         padding-bottom: $workspace-topbar-padding;
+        border-bottom: solid $gray-highlight $workspace-border-size;
         h2 {
             margin: 0rem;
             padding: 0rem;
