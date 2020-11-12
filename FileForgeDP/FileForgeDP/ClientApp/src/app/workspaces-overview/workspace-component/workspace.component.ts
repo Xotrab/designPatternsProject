@@ -4,7 +4,7 @@ import { FileModelDto } from '../../models/file/file-dto';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { environment } from 'src/environments/environment';
 import { WorkspaceService } from '../../services/workspace.service';
@@ -320,7 +320,7 @@ export class WorkspaceComponent implements OnInit, OnChanges {
         this.isDataLoaded = false;
 
         this.mWorkspaceService.getWorkspacesOverview(currentWorkspace.id).subscribe(
-            (result : FileModelDto[]) => {
+            (result: FileModelDto[]) => {
                 //console.log();
                 //console.log(JSON.stringify(result));
                 this.files = result;
@@ -330,7 +330,6 @@ export class WorkspaceComponent implements OnInit, OnChanges {
             (error) => {
                 console.log(error);
             }
-        
         );
         //console.log(this.files);
 
@@ -338,7 +337,6 @@ export class WorkspaceComponent implements OnInit, OnChanges {
             display: this.chosenWorkspace.id != null ? 'block' : 'none',
         };
 
-        
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
     }
@@ -356,11 +354,11 @@ export class WorkspaceComponent implements OnInit, OnChanges {
     }
 
     openDialog() {
-        const dialogRef = this.dialog.open(FileUploadDialogComponent,{
-            data : {workspaceId : this.chosenWorkspace.id}
+        const dialogRef = this.dialog.open(FileUploadDialogComponent, {
+            data: { workspaceId: this.chosenWorkspace.id },
         });
-        dialogRef.afterClosed().subscribe(result => {
-          console.log(`Dialog result: ${result}`);
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log(`Dialog result: ${result}`);
         });
-      }
+    }
 }
