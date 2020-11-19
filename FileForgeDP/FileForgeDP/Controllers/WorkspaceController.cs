@@ -6,6 +6,7 @@ using FileForgeDP.Mappers;
 using FileForgeDP.Database.Dto;
 using System.Linq;
 using System.Collections.Generic;
+using FileForgeDP.Facades;
 
 namespace FileForgeDP.Controllers
 {
@@ -14,18 +15,12 @@ namespace FileForgeDP.Controllers
     public class WorkspaceController : ControllerBase
     {
 
-        private readonly WorkspaceRepository mWorkspaceRepository;
-        private readonly FileRepository mFileRepository;
+        private readonly WorkspacesFacade mWorkspacesFacade;
 
-        private readonly WorkspaceModelMapper mWorkspaceModelMapper;
-        private readonly FileModelMapper mFileModelMapper;
-
-        public WorkspaceController(WorkspaceRepository workspaceService, FileRepository fileRepository, WorkspaceModelMapper workspaceModelMapper, FileModelMapper fileModelMapper)
+        public WorkspaceController(WorkspacesFacade workspacesFacade)
         {
-            mWorkspaceRepository = workspaceService;
-            mWorkspaceModelMapper = workspaceModelMapper;
-            mFileRepository = fileRepository;
-            mFileModelMapper = fileModelMapper;
+            this.mWorkspacesFacade = workspacesFacade;
+      
         }
 
         // /api/workspaces   -   add workspace
@@ -34,10 +29,7 @@ namespace FileForgeDP.Controllers
         [Route("workspaces")]
         public async Task<IActionResult> PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
         {
-
-            var workspaceToSave = mWorkspaceModelMapper.DtoToWorkspaceModel(workspaceModelDto);
-
-            var createdId = mWorkspaceRepository.Create(workspaceToSave);
+            var createdId = mWorkspacesFacade.AddWorkspace(workspaceModelDto);
 
             return CreatedAtRoute(new { id = createdId }, new { name = workspaceModelDto.Name, id = createdId });
         }
@@ -48,10 +40,10 @@ namespace FileForgeDP.Controllers
         [Route("workspaces/{id}")]
         public async Task<IActionResult> PostWorkspaceModel(string id, [FromBody] FileModelDto fileModelDto)
         {
-
+            // Strange but necessary
             fileModelDto.GroupId = id;
-            var fileModel = mFileModelMapper.DtoToFileModel(fileModelDto);
-            var createdId = mWorkspaceRepository.Create(fileModel);
+
+            var createdId = mWorkspacesFacade.AddFileToWorkspace(fileModelDto);
 
             return CreatedAtRoute(new { id = createdId }, new { fileName = fileModelDto.FileName, id = createdId, groupId = fileModelDto.GroupId });
         }
@@ -60,27 +52,21 @@ namespace FileForgeDP.Controllers
         [Route("workspaces/{workspaceId}/files")]
         public  ActionResult<List<FileModelDto>> GetAllWorkspaceFiles(string workspaceId)
         {
-            var result = mFileRepository.Get(workspaceId);
-
-            return result.Select(x => mFileModelMapper.FileModelToDto(x)).ToList();
+            return mWorkspacesFacade.GetWorkspaceFiles(workspaceId);
         }
         // /api/workspaces/workspaceId/fileId   - get the file(all its content) from the workspace
         [HttpGet]  
         [Route("workspaces/{workspaceId}/files/{fileId}")]
         public async Task<ActionResult<FileModelDto>> GetFileModel(string workspaceId, string fileId)
         {
-            var result = mWorkspaceRepository.GetFile(workspaceId,fileId);
-
-            return mFileModelMapper.FileModelToDto(result);
+            return mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
         }
         // /api/workspaces/workspaceId  -   get the workspace
         [HttpGet]
         [Route("workspaces/{id}")]
         public async Task<ActionResult<WorkspaceModelDto>> GetWorkspaceModel(string id)
         {
-            var result = mWorkspaceRepository.Get(id);
-
-            return mWorkspaceModelMapper.WorkspaceModelToDto(result);
+            return mWorkspacesFacade.GetWorkspace(id);
         }
 
         // /api/workspaces/workspaceId  -   delete the workspace and all it's files
@@ -88,7 +74,7 @@ namespace FileForgeDP.Controllers
         [Route("workspaces/{id}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string id)
         {
-            mWorkspaceRepository.Remove(id);
+            mWorkspacesFacade.DeleteWorkspace(id);
             return NoContent();
         }
 
@@ -97,7 +83,7 @@ namespace FileForgeDP.Controllers
         [Route("workspaces/{workspaceId}/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string workspaceId, string fileId)
         {
-            mWorkspaceRepository.RemoveOne(workspaceId, fileId);
+            mWorkspacesFacade.RemoveFileFromWorkspace(workspaceId, fileId);
             return NoContent();
         }
 
@@ -110,24 +96,22 @@ namespace FileForgeDP.Controllers
             {
                 return BadRequest();
             }
-            var workspaceModel = mWorkspaceModelMapper.DtoToWorkspaceModel(workspaceModelDto);
 
-            mWorkspaceRepository.Update(id, workspaceModel);
+            mWorkspacesFacade.UpdateWorkspace(id, workspaceModelDto);
 
             return NoContent();
         }
         // /api/workspaces/workspaceid/fileid
         [HttpPut]
         [Route("workspaces/{workspaceId}/{fileId}")]
-        public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModel(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
+        public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
         {
             if (fileId != fileModelDto.Id || workspaceId != fileModelDto.GroupId)
             {
                 return BadRequest();
-            }
-            var fileModel = mFileModelMapper.DtoToFileModel(fileModelDto);
+            };
 
-            mFileRepository.Update(fileId, fileModel);
+            mWorkspacesFacade.UpdateWorkspaceFile(workspaceId, fileId, fileModelDto);
 
             return NoContent();
         }
