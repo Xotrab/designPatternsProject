@@ -365,8 +365,6 @@ export class WorkspaceComponent implements OnInit, OnChanges {
     downloadFile(workspaceId: string, fileId: string, filename: string) {
         this.mWorkspaceService.downloadWorkspaceFile(workspaceId, fileId).subscribe(
             (response: any) => {
-                debugger;
-                let fileName = response.filename;
                 let dataType = response.type;
                 let binaryData = [];
                 binaryData.push(response);
