@@ -9,7 +9,7 @@
         </mat-form-field>
 
         <div class="button-wrapper">
-            <button mat-raised-button color="primary" (click)="openDialog()"> Add File </button>
+            <button mat-raised-button color="primary"  (click)="openDialog()"> Add File </button>
         </div>
 
     </div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="buttons-wrapper">
                     <div class ="detail-control-buttons">
-                        <button mat-raised-button color="primary"> Download </button>
+                        <button mat-raised-button color="primary" (click)="downloadFile(file.groupId,file.id,file.fileName)"> Download </button>
                         <button mat-raised-button color="primary"> Update </button>
                         <button mat-raised-button color="primary"> Remove </button>
                     </div>

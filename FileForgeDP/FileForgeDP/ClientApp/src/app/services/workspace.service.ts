@@ -8,9 +8,21 @@ import { environment } from 'src/environments/environment';
 export class WorkspaceService {
     constructor(private http: HttpClient) {}
 
+    getWorkspacesOverview(id: String) {
+        return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
+    }
 
+    public uploadWorkspaceFile(worksapceId: String, form: FormData) {
+        return this.http.post<any>(environment.apiUrl + 'workspaces/' + worksapceId, form, {
+            reportProgress: true,
+            observe: 'events',
+        });
+    }
 
-     getWorkspacesOverview(id: String) {
-         return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
+    public downloadWorkspaceFile(workspaceId: string, fileId: string) {
+        return this.http.get(
+            environment.apiUrl + 'workspaces/' + workspaceId + '/files/' + fileId,
+            { responseType: 'blob' as 'json' }
+        );
     }
 }

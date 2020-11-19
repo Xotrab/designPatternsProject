@@ -1,9 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FileModelDto } from '../../../models/file/file-dto';
-import { WorkspaceService } from '../../../services/workspace.service';
+
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { catchError, map } from 'rxjs/operators';
 
 export interface DialogData {
     workspaceId: String;
@@ -22,6 +25,8 @@ export class FileUploadDialogComponent implements OnInit {
 
     base64File: String;
     isShaking: boolean = false;
+
+    fileUploadProgresses: Array<number> = new Array<number>();
 
     constructor(
         private mSnackBar: MatSnackBar,
@@ -47,7 +52,7 @@ export class FileUploadDialogComponent implements OnInit {
                     groupId: this.data.workspaceId,
                     description: '(no description)',
                     fileName: file.name,
-                    file: this.base64File,
+                    file: file,
                     contentType: file.type,
                     lastModificationDate: String(formatDate(new Date(), 'dd/MM/yyyy', 'en')),
                     lastModifiedBy: 'Bob',
@@ -85,5 +90,43 @@ export class FileUploadDialogComponent implements OnInit {
             this.isShaking = false;
         }, 600);
     }
-    uploadFiles() {}
+
+    uploadFiles() {
+        var count = 0;
+        this.fileList.forEach((file) => {
+            this.uploadFile(count++, file);
+            this.fileUploadProgresses.push(0);
+        });
+    }
+
+    uploadFile(fileNumber: number, file: FileModelDto) {
+        const formatData = new FormData();
+        formatData.append('file', file.file);
+        formatData.append('fileName', file.file.name);
+        formatData.append('lastModificationDate', <string>file.lastModificationDate);
+        formatData.append('description', <string>file.description);
+        formatData.append('lastModifiedBy', <string>file.lastModifiedBy);
+
+        this.mWorkspaceService
+            .uploadWorkspaceFile(file.groupId, formatData)
+            .pipe(
+                map((event) => {
+                    switch (event.type) {
+                        case HttpEventType.UploadProgress:
+                            this.fileUploadProgresses[fileNumber] = Math.round(
+                                (event.loaded * 100) / event.total
+                            );
+                            console.log(this.fileUploadProgresses);
+                            break;
+                        case HttpEventType.Response:
+                            return event;
+                    }
+                })
+            )
+            .subscribe((event: any) => {
+                if (typeof event === 'object') {
+                    console.log(event.body);
+                }
+            });
+    }
 }

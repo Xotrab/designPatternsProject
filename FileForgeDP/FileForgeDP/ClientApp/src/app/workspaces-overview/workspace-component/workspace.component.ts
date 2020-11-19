@@ -361,4 +361,24 @@ export class WorkspaceComponent implements OnInit, OnChanges {
             console.log(`Dialog result: ${result}`);
         });
     }
+
+    downloadFile(workspaceId: string, fileId: string, filename: string) {
+        this.mWorkspaceService.downloadWorkspaceFile(workspaceId, fileId).subscribe(
+            (response: any) => {
+                debugger;
+                let fileName = response.filename;
+                let dataType = response.type;
+                let binaryData = [];
+                binaryData.push(response);
+                let downloadLink = document.createElement('a');
+                downloadLink.href = window.URL.createObjectURL(
+                    new Blob(binaryData, { type: dataType })
+                );
+                if (filename) downloadLink.setAttribute('download', filename);
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+            },
+            (error) => console.log('OHH shit: ' + JSON.stringify(error))
+        );
+    }
 }
