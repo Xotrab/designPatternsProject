@@ -78,7 +78,7 @@ export class FileUploadDialogComponent implements OnInit {
     }
     onExceed() {
         this.mSnackBar.open('Hey, slow down! Too many files!', 'Okay, sorry :<', {
-            duration: 5000,
+            duration: 3000,
         });
         this.isShaking = true;
         setTimeout(() => {

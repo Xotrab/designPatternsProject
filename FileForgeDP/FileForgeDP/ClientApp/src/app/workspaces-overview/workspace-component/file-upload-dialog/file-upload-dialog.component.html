@@ -3,12 +3,14 @@
     <div class="topbar">ADD FILES</div>
     <mat-list>
         <div  class="items-container">
-            <div class="file-to-upload" *ngFor="let file of fileList; let i=index">
+            <div *ngFor="let file of fileList; let i=index">
                 <mat-list-item>
-                    {{file.fileName}}
-                    <i class="far fa-file"></i>
-                    <div (click)="removeFromUploadBuffer(i)">
-                        <i class="fas fa-times"></i>
+                    <div class="file-to-upload">
+                        {{file.fileName}}
+                        <i class="far fa-file"></i>
+                        <div (click)="removeFromUploadBuffer(i)">
+                            <i class="fas fa-times"></i>
+                        </div>
                     </div>
 
                 </mat-list-item>
@@ -31,8 +33,8 @@
         </ng-template> -->
     </div>
     <div class="dialog-buttons">
-        <button mat-raised-button (click)="onCancel()">cancel</button>
-        <button mat-raised-button color="primary" (click)="uploadFiles()">upload</button>
+        <button mat-raised-button (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="uploadFiles()">Upload</button>
     </div>
 
 </div>
