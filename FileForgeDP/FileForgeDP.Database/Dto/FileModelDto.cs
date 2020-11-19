@@ -30,8 +30,9 @@
         /// <summary>
         /// Gets or sets the File.
         /// </summary>
-        public string File { get; set; }
+        public IFormFile File { get; set; }
 
+        public byte[] FileBytes { get; set; }
         public string ContentType { get; set; }
 
         public string LastModificationDate { get; set; }
