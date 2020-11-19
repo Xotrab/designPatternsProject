@@ -41,11 +41,11 @@ namespace FileForgeDP.Facades
         }
 
 
-        public List<FileModelDto> GetWorkspaceFiles(string workspaceId)
+        public List<FileOverviewDto> GetWorkspaceFiles(string workspaceId)
         {
             var result = mFileRepository.Get(workspaceId);
 
-            return result.Select(x => mFileModelMapper.FileModelToDto(x)).ToList();
+            return result;
         }
 
         public FileModelDto GetFileFromWorkspace(string workspaceId, string fileId)

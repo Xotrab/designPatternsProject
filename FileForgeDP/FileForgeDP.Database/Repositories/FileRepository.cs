@@ -1,6 +1,7 @@
 ﻿namespace FileForgeDP.Database.Repositories
 {
     using FileForgeDP.Database.Builders;
+    using FileForgeDP.Database.Dto;
     using FileForgeDP.Database.Models;
     using MongoDB.Bson;
     using MongoDB.Driver;
@@ -44,10 +45,14 @@
         /// The Get.
         /// </summary>
         /// <returns>The <see cref="List{FileModel}"/>.</returns>
-        public List<FileModel> Get(string workspaceId) =>
-            mFiles.Find(file => file.GroupId == workspaceId).ToList();
+        public List<FileOverviewDto> Get(string workspaceId) =>
+            mFiles.Find(file => file.GroupId == workspaceId)
+            .Project( x => new FileOverviewDto
+            {FileName = x.FileName, ContentType = x.ContentType, Description = x.Description, 
+                GroupId = x.GroupId, Id = x.Id, LastModificationDate = x.LastModificationDate, LastModifiedBy = x.LastModifiedBy })
+            .ToList();
 
-
+        
         /// <summary>
         /// The Get.
         /// </summary>

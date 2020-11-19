@@ -7,6 +7,12 @@ using FileForgeDP.Database.Dto;
 using System.Linq;
 using System.Collections.Generic;
 using FileForgeDP.Facades;
+using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+using FileForgeDP.Extensions;
 
 namespace FileForgeDP.Controllers
 {
@@ -38,11 +44,12 @@ namespace FileForgeDP.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces/{id}")]
-        public async Task<IActionResult> PostWorkspaceModel(string id, [FromBody] FileModelDto fileModelDto)
+        public async Task<IActionResult> PostWorkspaceModel(string id, [FromForm] FileModelDto fileModelDto)
         {
             // Strange but necessary
             fileModelDto.GroupId = id;
 
+            fileModelDto.FileBytes = await fileModelDto.File.ToBytes();
             var createdId = mWorkspacesFacade.AddFileToWorkspace(fileModelDto);
 
             return CreatedAtRoute(new { id = createdId }, new { fileName = fileModelDto.FileName, id = createdId, groupId = fileModelDto.GroupId });
