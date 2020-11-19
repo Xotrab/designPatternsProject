@@ -25,10 +25,11 @@
             mMapper = new MapperConfiguration(x =>
            {
                x.CreateMap<FileModelDto, FileModel>()
-                .ForMember(model => model.ContentType, map => map.MapFrom(dto => dto.File == null ? string.Empty : dto.ContentType))
-                .ForMember(model => model.File, map => map.MapFrom(dto => Encoding.ASCII.GetBytes(dto.File)))
+                .ForMember(model => model.ContentType, map => map.MapFrom(dto => dto.File ==null ||  dto.File.ContentType == null ? dto.ContentType : dto.File.ContentType))
+                .ForMember(model => model.File, map => map.MapFrom(dto => dto.FileBytes))
                 .ReverseMap()
-                .ForMember(dto => dto.File, map => map.MapFrom(model => model.File.ToIFormFIle(model.FileName)));
+                .ForMember(dto => dto.File, map => map.Ignore())
+                .ForMember(dto => dto.FileBytes, map => map.MapFrom(model => model.File));
            }).CreateMapper();
         }
 

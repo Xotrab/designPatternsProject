@@ -57,17 +57,25 @@ namespace FileForgeDP.Controllers
 
         [HttpGet]
         [Route("workspaces/{workspaceId}/files")]
-        public  ActionResult<List<FileModelDto>> GetAllWorkspaceFiles(string workspaceId)
+        public  ActionResult<List<FileOverviewDto>> GetAllWorkspaceFiles(string workspaceId)
         {
             return mWorkspacesFacade.GetWorkspaceFiles(workspaceId);
         }
         // /api/workspaces/workspaceId/fileId   - get the file(all its content) from the workspace
         [HttpGet]  
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public async Task<ActionResult<FileModelDto>> GetFileModel(string workspaceId, string fileId)
+        public IActionResult GetFileModelAsync(string workspaceId, string fileId)
         {
-            return mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
+            var result1 =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
+           
+         
+            return File(result1.FileBytes, result1.ContentType , result1.FileName);
+       
+            
         }
+ 
+
+
         // /api/workspaces/workspaceId  -   get the workspace
         [HttpGet]
         [Route("workspaces/{id}")]

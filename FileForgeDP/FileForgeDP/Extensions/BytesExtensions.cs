@@ -33,7 +33,11 @@
         {
             using (var memoryStream = new MemoryStream(bytes))
             {
-                return new FormFile(memoryStream, 0, bytes.Length, fileName, fileName);
+                return new FormFile(memoryStream, 0, bytes.Length, fileName, fileName)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/png"
+                };
             }
         }
     }
