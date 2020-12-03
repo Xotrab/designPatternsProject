@@ -1,35 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using FileForgeDP.Database.Repositories;
-using FileForgeDP.Mappers;
-using FileForgeDP.Database.Dto;
-using System.Linq;
-using System.Collections.Generic;
-using FileForgeDP.Facades;
-using System.IO;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Net.Http;
-using System.Net;
-using System.Net.Http.Headers;
-using FileForgeDP.Extensions;
-
-namespace FileForgeDP.Controllers
+﻿namespace FileForgeDP.Controllers
 {
+    using FileForgeDP.Database.Dto;
+    using FileForgeDP.Extensions;
+    using FileForgeDP.Facades;
+    using FileForgeDP.Loggers;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+   
     [Route("api/")]
     [ApiController]
     public class WorkspaceController : ControllerBase
     {
-
+      
         private readonly WorkspacesFacade mWorkspacesFacade;
-
-        public WorkspaceController(WorkspacesFacade workspacesFacade)
+        private readonly AuditLogger mAuditLogger;
+   
+        public WorkspaceController(WorkspacesFacade workspacesFacade, ILogger logger)
         {
             this.mWorkspacesFacade = workspacesFacade;
-      
+            //Bad Pratice, but this way we avoid messing up Log() parameters 
+            this.mAuditLogger = (AuditLogger)logger;
         }
-
-        // /api/workspaces   -   add workspace
+    
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces")]
@@ -40,7 +35,6 @@ namespace FileForgeDP.Controllers
             return CreatedAtRoute(new { id = createdId }, new { name = workspaceModelDto.Name, id = createdId });
         }
 
-        // /api/workspaces/workspaceId  -   add file to the workspace
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces/{id}")]
@@ -61,7 +55,7 @@ namespace FileForgeDP.Controllers
         {
             return mWorkspacesFacade.GetWorkspaceFiles(workspaceId);
         }
-        // /api/workspaces/workspaceId/fileId   - get the file(all its content) from the workspace
+  
         [HttpGet]  
         [Route("workspaces/{workspaceId}/files/{fileId}")]
         public IActionResult GetFileModelAsync(string workspaceId, string fileId)
@@ -70,21 +64,19 @@ namespace FileForgeDP.Controllers
            
          
             return File(result1.FileBytes, result1.ContentType , result1.FileName);
-       
-            
         }
- 
-
-
-        // /api/workspaces/workspaceId  -   get the workspace
+    
         [HttpGet]
         [Route("workspaces/{id}")]
         public async Task<ActionResult<WorkspaceModelDto>> GetWorkspaceModel(string id)
         {
-            return mWorkspacesFacade.GetWorkspace(id);
+            var result = mWorkspacesFacade.GetWorkspace(id);
+            
+            mAuditLogger.Debug("Patryk .Net Dev have to provide user somehow", ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? "200" : "400" );
+            
+            return result;
         }
 
-        // /api/workspaces/workspaceId  -   delete the workspace and all it's files
         [HttpDelete]
         [Route("workspaces/{id}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string id)
@@ -93,7 +85,6 @@ namespace FileForgeDP.Controllers
             return NoContent();
         }
 
-        // /api/workspaces/workspaceId/fileId  - remove the file from the workspace
         [HttpDelete]
         [Route("workspaces/{workspaceId}/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string workspaceId, string fileId)
@@ -102,7 +93,6 @@ namespace FileForgeDP.Controllers
             return NoContent();
         }
 
-        // /api/workspaces/workspaceId   - update the workspace
         [HttpPut]
         [Route("workspaces/{id}")]
         public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModel(string id, [FromBody] WorkspaceModelDto workspaceModelDto)
@@ -116,7 +106,7 @@ namespace FileForgeDP.Controllers
 
             return NoContent();
         }
-        // /api/workspaces/workspaceid/fileid
+
         [HttpPut]
         [Route("workspaces/{workspaceId}/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
@@ -130,6 +120,5 @@ namespace FileForgeDP.Controllers
 
             return NoContent();
         }
-
     }
 }

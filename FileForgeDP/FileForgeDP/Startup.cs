@@ -4,6 +4,7 @@ namespace FileForgeDP
     using FileForgeDP.Database.Models;
     using FileForgeDP.Database.Repositories;
     using FileForgeDP.Facades;
+    using FileForgeDP.Loggers;
     using FileForgeDP.Mappers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,8 @@ namespace FileForgeDP
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using System;
+    using System.IO;
 
     /// <summary>
     /// Defines the <see cref="Startup" />.
@@ -61,6 +64,18 @@ namespace FileForgeDP
 
             services.AddSingleton<FileRepository>();
             services.AddSingleton<WorkspaceRepository>();
+
+            // Builder order reflect the log factors order
+            services.AddSingleton(x => new AuditLoggerBuilder()
+                                        .BuildTimeStamp()
+                                        .BuildActor()
+                                        .BuildAction()
+                                        .BuildActionType()
+                                        .BuildActionStatus()                                      
+                                        .BuilLogPaths(Path.Combine(Environment.CurrentDirectory, @"..\logs\logs.txt"))
+                                        .Build()
+                                        );
+
             services.AddScoped<WorkspacesFacade>();
             // Set max size for uploaded files, since default is 1024 bytes :(
 
