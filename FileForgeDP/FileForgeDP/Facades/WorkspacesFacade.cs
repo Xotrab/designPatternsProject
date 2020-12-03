@@ -1,10 +1,7 @@
-﻿using FileForgeDP.Database.Dto;
+﻿using System.Collections.Generic;
+using FileForgeDP.Database.Dto;
 using FileForgeDP.Database.Repositories;
 using FileForgeDP.Mappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FileForgeDP.Facades
 {
@@ -13,19 +10,19 @@ namespace FileForgeDP.Facades
         private readonly WorkspaceRepository mWorkspaceRepository;
         private readonly FileRepository mFileRepository;
         private readonly FileModelMapper mFileModelMapper;
-        private readonly WorkspaceModelMapper mWorkspaceModelMapper;
-        public WorkspacesFacade(WorkspaceRepository workspaceRepository, FileRepository fileRepository, FileModelMapper fileModelMapper, WorkspaceModelMapper workspaceModelMapper) 
-        {
-            this.mWorkspaceRepository = workspaceRepository;
-            this.mFileRepository = fileRepository;
-            this.mFileModelMapper = fileModelMapper;
-            this.mWorkspaceModelMapper = workspaceModelMapper;
-        }
+        private readonly Mapper mMapper;
 
+        public WorkspacesFacade(WorkspaceRepository workspaceRepository, FileRepository fileRepository, FileModelMapper fileModelMapper, Mapper mapper) 
+        {
+            mWorkspaceRepository = workspaceRepository;
+            mFileRepository = fileRepository;
+            mFileModelMapper = fileModelMapper;
+            mMapper = mapper;
+        }
 
         public string AddWorkspace(WorkspaceModelDto workspaceModelDto)
         {
-            var workspaceToSave = mWorkspaceModelMapper.DtoToWorkspaceModel(workspaceModelDto);
+            var workspaceToSave = mMapper.DtoToWorkspaceModel(workspaceModelDto);
 
             var createdId = mWorkspaceRepository.Create(workspaceToSave);
             
@@ -39,7 +36,6 @@ namespace FileForgeDP.Facades
 
             return createdId;
         }
-
 
         public List<FileOverviewDto> GetWorkspaceFiles(string workspaceId)
         {
@@ -59,7 +55,7 @@ namespace FileForgeDP.Facades
         {
             var result = mWorkspaceRepository.Get(id);
 
-            return mWorkspaceModelMapper.WorkspaceModelToDto(result);
+            return mMapper.WorkspaceModelToDto(result);
         }
 
         // TODO add return deleted ID
@@ -75,7 +71,7 @@ namespace FileForgeDP.Facades
         // TODO add return of updated workspace
         public void UpdateWorkspace(string id, WorkspaceModelDto workspaceModelDto)
         {
-            var workspaceModel = mWorkspaceModelMapper.DtoToWorkspaceModel(workspaceModelDto);
+            var workspaceModel = mMapper.DtoToWorkspaceModel(workspaceModelDto);
 
             mWorkspaceRepository.Update(id, workspaceModel);
         }
@@ -87,8 +83,4 @@ namespace FileForgeDP.Facades
             mFileRepository.Update(fileId, fileModel);
         }
     }
-
-    
-
-
 }
