@@ -1,6 +1,5 @@
 namespace FileForgeDP
 {
-    using FileForgeDP.Database;
     using FileForgeDP.Database.Models;
     using FileForgeDP.Database.Repositories;
     using FileForgeDP.Facades;
@@ -17,34 +16,20 @@ namespace FileForgeDP
     using System;
     using System.IO;
 
-    /// <summary>
-    /// Defines the <see cref="Startup" />.
-    /// </summary>
     public class Startup
     {
         private readonly string mCorsPolicy = "Konrad to powazny programista";
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration<see cref="IConfiguration"/>.</param>
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-		
-        /// <summary>
-        /// Gets the Configuration.
-        /// </summary>
+
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// The ConfigureServices.
-        /// </summary>
-        /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
         public void ConfigureServices(IServiceCollection services)
         {
  
-
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -95,11 +80,6 @@ namespace FileForgeDP
                 }));
         }
 
-        /// <summary>
-        /// The Configure.
-        /// </summary>
-        /// <param name="app">The app<see cref="IApplicationBuilder"/>.</param>
-        /// <param name="env">The env<see cref="IWebHostEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -133,7 +113,7 @@ namespace FileForgeDP
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
-
+                
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())

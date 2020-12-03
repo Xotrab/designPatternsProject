@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FileForgeDP.Loggers
+﻿namespace FileForgeDP.Loggers
 {
     public static class LogerOptionsConstants
     {
