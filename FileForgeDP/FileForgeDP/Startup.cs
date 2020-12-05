@@ -44,7 +44,6 @@ namespace FileForgeDP
                 sp.GetRequiredService<IOptions<FileForgeDatabaseSettings>>().Value);
 
             services.AddScoped<FileModelMapper>();
-            services.AddScoped<IOurMapper, OurMapper>();
             services.AddScoped<Mapper>();
 
             services.AddSingleton<FileRepository>();
