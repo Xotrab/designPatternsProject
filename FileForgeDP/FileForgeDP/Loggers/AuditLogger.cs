@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace FileForgeDP.Loggers
 {
     public class AuditLogger : ILogger
     {
-
+        private object mFileLock = new Object();
         internal string FormatString { get; set; }
         internal string PathToFile { get; set; }
 
         public AuditLogger(){}
         public void Log(string log)
         {   
-            saveToFIle(log, this.PathToFile);
+            SaveToFile(log, PathToFile);
         }
 
         public void Debug(string Actor, ActionEnum EnumActionType,string Action, string ActionStatus)
@@ -28,13 +29,18 @@ namespace FileForgeDP.Loggers
             Log(logBuilder.ToString());
             logBuilder.Clear();
         }
-        public async void saveToFIle(string log, string path)
-        {   
-            using (StreamWriter sw = (File.Exists(path)) ? File.AppendText(path) : File.CreateText(path))             
-            {   
-                // Feel free to format output
-                sw.WriteLine(log);
+        public void SaveToFile(string log, string path)
+        {
+            lock (mFileLock)
+            {
+                using (StreamWriter sw = (File.Exists(path)) ? File.AppendText(path) : File.CreateText(path))
+                {
+                    // Feel free to format output
+                    sw.WriteLine(log);
+
+                }
             }
+   
         }
     }
 }
