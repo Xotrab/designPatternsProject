@@ -21,7 +21,6 @@
         public WorkspaceController(WorkspacesFacade workspacesFacade, ILogger logger)
         {
             this.mWorkspacesFacade = workspacesFacade;
-            //Bad Pratice, but this way we avoid messing up Log() parameters 
             this.mAuditLogger = logger;
         }
     
