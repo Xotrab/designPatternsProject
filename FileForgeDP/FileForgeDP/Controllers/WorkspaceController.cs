@@ -16,13 +16,13 @@
     {
       
         private readonly WorkspacesFacade mWorkspacesFacade;
-        private readonly AuditLogger mAuditLogger;
+        private readonly ILogger mAuditLogger;
    
         public WorkspaceController(WorkspacesFacade workspacesFacade, ILogger logger)
         {
             this.mWorkspacesFacade = workspacesFacade;
             //Bad Pratice, but this way we avoid messing up Log() parameters 
-            this.mAuditLogger = (AuditLogger)logger;
+            this.mAuditLogger = logger;
         }
     
         [HttpPost]
