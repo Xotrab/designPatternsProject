@@ -22,7 +22,7 @@ namespace FileForgeDP
             foreach (var property in objectProperties)
             {
                 var resultProperty = resultObjectType.GetProperty(property.Name);
-                if (resultProperty == null)
+                if (resultProperty == null || resultProperty.GetType() != property.GetType())
                     continue;
 
                 resultProperty.SetValue(resultObject, property.GetValue(objectToMap));
