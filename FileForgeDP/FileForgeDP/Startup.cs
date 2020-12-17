@@ -4,7 +4,6 @@ namespace FileForgeDP
     using FileForgeDP.Database.Repositories;
     using FileForgeDP.Facades;
     using FileForgeDP.Loggers;
-    using FileForgeDP.Mappers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http.Features;
@@ -29,12 +28,16 @@ namespace FileForgeDP
 
         public void ConfigureServices(IServiceCollection services)
         {
- 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Administrator", policy => policy.RequireClaim("user_roles", "[Administrator]"));
             });
 
             services.Configure<FileForgeDatabaseSettings>
@@ -43,7 +46,6 @@ namespace FileForgeDP
             services.AddSingleton<IFileForgeDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<FileForgeDatabaseSettings>>().Value);
 
-            services.AddScoped<FileModelMapper>();
             services.AddScoped<Mapper>();
 
             services.AddSingleton<FileRepository>();
@@ -61,6 +63,7 @@ namespace FileForgeDP
                                         );
 
             services.AddScoped<WorkspacesFacade>();
+            services.AddScoped<KeycloakFacade>();
             // Set max size for uploaded files, since default is 1024 bytes :(
 
             services.Configure<FormOptions>(options =>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FileForgeDP.Database.Dto;
 using FileForgeDP.Database.Repositories;
-using FileForgeDP.Mappers;
 
 namespace FileForgeDP.Facades
 {
@@ -9,14 +8,12 @@ namespace FileForgeDP.Facades
     {
         private readonly WorkspaceRepository mWorkspaceRepository;
         private readonly FileRepository mFileRepository;
-        private readonly FileModelMapper mFileModelMapper;
         private readonly Mapper mMapper;
 
-        public WorkspacesFacade(WorkspaceRepository workspaceRepository, FileRepository fileRepository, FileModelMapper fileModelMapper, Mapper mapper) 
+        public WorkspacesFacade(WorkspaceRepository workspaceRepository, FileRepository fileRepository, Mapper mapper) 
         {
             mWorkspaceRepository = workspaceRepository;
             mFileRepository = fileRepository;
-            mFileModelMapper = fileModelMapper;
             mMapper = mapper;
         }
 
@@ -31,7 +28,7 @@ namespace FileForgeDP.Facades
 
         public string AddFileToWorkspace(FileModelDto fileModelDto)
         {
-            var fileModel = mFileModelMapper.DtoToFileModel(fileModelDto);
+            var fileModel = mMapper.DtoToFileModel(fileModelDto);
             var createdId = mWorkspaceRepository.Create(fileModel);
 
             return createdId;
@@ -48,7 +45,7 @@ namespace FileForgeDP.Facades
         {
             var result = mWorkspaceRepository.GetFile(workspaceId, fileId);
 
-            return mFileModelMapper.FileModelToDto(result);
+            return mMapper.FileModelToDto(result);
         }
 
         public WorkspaceModelDto GetWorkspace(string id)
@@ -78,7 +75,7 @@ namespace FileForgeDP.Facades
 
         public void UpdateWorkspaceFile(string workspaceId, string fileId, FileModelDto fileModelDto)
         {
-            var fileModel = mFileModelMapper.DtoToFileModel(fileModelDto);
+            var fileModel = mMapper.DtoToFileModel(fileModelDto);
 
             mFileRepository.Update(fileId, fileModel);
         }
