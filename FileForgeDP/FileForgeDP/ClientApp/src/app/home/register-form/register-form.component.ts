@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { equal } from 'assert';
+import { UserRegisterDto } from '../../models/user/user-register-dto';
 
 @Component({
     selector: 'app-register-form',
@@ -7,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     styleUrls: ['./register-form.component.scss'],
 })
 export class RegisterFormComponent implements OnInit {
-    constructor(private builder: FormBuilder) {}
+  constructor(private builder: FormBuilder, private userService: UserService) { }
     public confirmEmailValid: boolean;
 
     public formLogin: FormGroup;
@@ -43,7 +46,21 @@ export class RegisterFormComponent implements OnInit {
         return this.formLogin.get('confirmEmail');
     }
 
-    onSubmit() {}
+    onSubmit() {
+        if (!this.equalEmails() || !this.equalPasswords()) {
+            return;
+        }
+
+        var userRegisterDto = {
+            firstName: "Konrad",
+            lastName: "PlzZrob",
+            email: this.email.value,
+            username: this.login.value,
+            password: this.password.value
+        } as UserRegisterDto;
+
+        this.userService.registerUser(userRegisterDto).subscribe(x => console.log(x));
+    }
 
     equalEmails() {
         const matched = this.email.value === this.confirmEmail.value;

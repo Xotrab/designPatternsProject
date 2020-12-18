@@ -32,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sidebar/workspace-sidebar.component';
 import { FileUploadDialogComponent } from './workspaces-overview/workspace-component/file-upload-dialog/file-upload-dialog.component';
 import { FileDndDirective } from './directives/file-dnd.directive';
+import { UserService } from './services/user.service';
 
 @NgModule({
     declarations: [
@@ -71,8 +72,8 @@ import { FileDndDirective } from './directives/file-dnd.directive';
         MatDialogModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-    ],
-    providers: [],
+  ],
+    providers: [UserService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
