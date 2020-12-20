@@ -17,16 +17,6 @@ namespace FileForgeDP
             mKeycloakClient = new KeycloakClient("http://localhost:8080/", "admin", "admin");
         }
 
-        public void Login(UserLoginDto userLoginDto)
-        {
-
-        }
-
-        public void Logout(string userId)
-        {
-
-        }
-
         public async Task<bool> Register(UserRegisterDto userRegisterDto)
         {
             var result = await mKeycloakClient.CreateUserAsync(mRealmName, new User

@@ -9,14 +9,11 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class LoginFormComponent implements OnInit {
     hide: boolean = true;
 
-    login: string = '';
-    password: string = '';
-
     constructor(private oauthService: OAuthService) {}
 
     ngOnInit(): void {}
 
-    onSubmit() {
-        this.oauthService.initImplicitFlow();
+    login() {
+        this.oauthService.initImplicitFlowInPopup();
     }
 }

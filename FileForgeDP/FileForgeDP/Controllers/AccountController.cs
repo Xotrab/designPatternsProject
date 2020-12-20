@@ -16,20 +16,6 @@
         }
 
         [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login([FromForm]UserLoginDto userLoginDto)
-        {
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("logout")]
-        public async Task<IActionResult> Logout(string userId)
-        {
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody]UserRegisterDto userRegisterDto)
         {
