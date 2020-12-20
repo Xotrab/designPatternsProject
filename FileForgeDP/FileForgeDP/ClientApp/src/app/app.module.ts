@@ -33,6 +33,7 @@ import { WorkspaceSidebarComponent } from './workspaces-overview/workspace-sideb
 import { FileUploadDialogComponent } from './workspaces-overview/workspace-component/file-upload-dialog/file-upload-dialog.component';
 import { FileDndDirective } from './directives/file-dnd.directive';
 import { UserService } from './services/user.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { UserService } from './services/user.service';
         MatDialogModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        OAuthModule.forRoot()
   ],
     providers: [UserService],
     bootstrap: [AppComponent],

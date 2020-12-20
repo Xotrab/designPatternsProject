@@ -1,5 +1,14 @@
 <mat-toolbar class="toolbar-theme">
 
-  <span>File Forge</span>
-  
+    <span>File Forge</span>
+
+    <li *ngIf="givenName">
+        <h1>Hello, {{givenName}}</h1>
+    </li>
+    <li *ngIf="givenName">
+        <button class="btn btn-default" (click)="logout()">
+            Logout
+        </button>
+    </li>
+
 </mat-toolbar>

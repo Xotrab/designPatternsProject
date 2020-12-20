@@ -4,8 +4,10 @@ namespace FileForgeDP
     using FileForgeDP.Database.Repositories;
     using FileForgeDP.Facades;
     using FileForgeDP.Loggers;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Features;
     using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.Extensions.Configuration;
@@ -73,13 +75,34 @@ namespace FileForgeDP
             });
 
             services.AddControllers();
-            services.AddCors(x=>x.AddPolicy(mCorsPolicy, builder =>
+            services.AddCors(x => x.AddPolicy(mCorsPolicy, builder =>
+            {
+                builder.SetIsOriginAllowed(_ => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            }));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.Authority = Configuration["Jwt:Authority"];
+                o.Audience = Configuration["Jwt:Audience"];
+                o.Events = new JwtBearerEvents()
                 {
-                    builder.SetIsOriginAllowed(_ => true)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-                }));
+                    OnAuthenticationFailed = (x) =>
+                    {
+                        x.NoResult();
+
+                        x.Response.StatusCode = 500;
+                        x.Response.ContentType = "text/plain";
+                        return x.Response.WriteAsync(x.Exception.ToString());
+                    }
+                };
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

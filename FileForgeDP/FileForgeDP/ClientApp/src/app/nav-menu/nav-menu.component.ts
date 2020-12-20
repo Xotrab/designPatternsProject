@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,11 +9,21 @@ import { Component } from '@angular/core';
 export class NavMenuComponent {
   isExpanded = false;
 
+  constructor(private oauthService: OAuthService) { }
+
   collapse() {
     this.isExpanded = false;
   }
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  logout() { this.oauthService.logOut(); }
+
+  get givenName() {
+    let claims = this.oauthService.getIdentityClaims();
+    if (!claims) return null;
+    return claims.given_name;
   }
 }

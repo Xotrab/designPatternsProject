@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
     selector: 'app-login-form',
@@ -11,9 +12,11 @@ export class LoginFormComponent implements OnInit {
     login: string = '';
     password: string = '';
 
-    constructor() {}
+    constructor(private oauthService: OAuthService) {}
 
     ngOnInit(): void {}
 
-    onSubmit() {}
+    onSubmit() {
+        this.oauthService.initImplicitFlow();
+    }
 }
