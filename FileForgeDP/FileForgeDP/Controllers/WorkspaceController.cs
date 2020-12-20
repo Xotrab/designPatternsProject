@@ -4,24 +4,24 @@
     using FileForgeDP.Extensions;
     using FileForgeDP.Facades;
     using FileForgeDP.Loggers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-   
+    [Authorize]
     [Route("api/")]
     [ApiController]
     public class WorkspaceController : ControllerBase
     {
-      
         private readonly WorkspacesFacade mWorkspacesFacade;
         private readonly ILogger mAuditLogger;
    
         public WorkspaceController(WorkspacesFacade workspacesFacade, ILogger logger)
         {
-            this.mWorkspacesFacade = workspacesFacade;
-            this.mAuditLogger = logger;
+            mWorkspacesFacade = workspacesFacade;
+            mAuditLogger = logger;
         }
     
         [HttpPost]
@@ -60,7 +60,6 @@
         public IActionResult GetFileModelAsync(string workspaceId, string fileId)
         {
             var result1 =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
-           
          
             return File(result1.FileBytes, result1.ContentType , result1.FileName);
         }
