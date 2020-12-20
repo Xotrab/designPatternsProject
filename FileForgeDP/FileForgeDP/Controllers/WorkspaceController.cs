@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [Authorize]
@@ -29,6 +30,8 @@
         [Route("workspaces")]
         public async Task<IActionResult> PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
         {
+            //User.Identity.Name - nazwa aktualnie zalogowanego usera
+
             var createdId = mWorkspacesFacade.AddWorkspace(workspaceModelDto);
 
             return CreatedAtRoute(new { id = createdId }, new { name = workspaceModelDto.Name, id = createdId });

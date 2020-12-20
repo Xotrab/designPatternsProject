@@ -24,6 +24,6 @@ export class NavMenuComponent {
   get givenName() {
     let claims = this.oauthService.getIdentityClaims();
     if (!claims) return null;
-    return claims.given_name;
+    return "Noname";
   }
 }

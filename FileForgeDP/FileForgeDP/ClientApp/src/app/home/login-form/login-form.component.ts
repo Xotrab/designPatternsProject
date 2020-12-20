@@ -14,6 +14,6 @@ export class LoginFormComponent implements OnInit {
     ngOnInit(): void {}
 
     login() {
-        this.oauthService.initImplicitFlowInPopup();
+        this.oauthService.initImplicitFlow();
     }
 }
