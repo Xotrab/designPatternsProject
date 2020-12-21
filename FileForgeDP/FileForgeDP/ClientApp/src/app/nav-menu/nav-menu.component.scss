@@ -19,8 +19,43 @@ html {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
 .navbar-container {
-    background-color: $accent !important;
+    width: 100%;
+
+    .navbar-items-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: space-between;
+
+        .item {
+            margin-right: 3rem;
+        }
+        .app-title {
+            justify-self: flex-start;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .details {
+            display: flex;
+            justify-content: flex-end;
+            align-content: center;
+            .logout-btn {
+                justify-self: flex-end;
+            }
+            .username {
+                font-size: 1.5rem;
+                justify-self: flex-end;
+                align-self: center;
+            }
+        }
+    }
 }
+
 .toolbar-theme {
     background-color: $primary;
 

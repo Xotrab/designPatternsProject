@@ -1,14 +1,20 @@
-<mat-toolbar class="toolbar-theme">
+<mat-toolbar class="toolbar-theme navbar-container">
 
-    <span>File Forge</span>
+    <div class="navbar-items-container">
+        <span class="item app-tite">File Forge</span>
 
-    <li *ngIf="givenName">
-        <h1>Hello, {{givenName}}</h1>
-    </li>
-    <li *ngIf="givenName">
-        <button class="btn btn-default" (click)="logout()">
-            Logout
-        </button>
-    </li>
+        <!-- for navigation buttons -->
+        <div class="navigation item">
 
+        </div>
+    
+        <div class="details" *ngIf="givenName">
+            <span class="item username">Hello, {{givenName}}</span>
+            <button class="logout-btn" mat-raised-button color="white" (click)="logout()">
+                 Logout
+            </button>
+        </div>
+                    
+    </div>
+    
 </mat-toolbar>
