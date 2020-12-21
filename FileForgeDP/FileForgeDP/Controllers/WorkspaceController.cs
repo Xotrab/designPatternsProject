@@ -9,9 +9,10 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
 
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     [Route("api/")]
     [ApiController]
     public class WorkspaceController : ControllerBase
@@ -30,7 +31,6 @@
         [Route("workspaces")]
         public async Task<IActionResult> PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
         {
-            //User.Identity.Name - nazwa aktualnie zalogowanego usera
 
             var createdId = mWorkspacesFacade.AddWorkspace(workspaceModelDto);
 
@@ -51,10 +51,13 @@
             return CreatedAtRoute(new { id = createdId }, new { fileName = fileModelDto.FileName, id = createdId, groupId = fileModelDto.GroupId });
         }
 
+
+        
         [HttpGet]
         [Route("workspaces/{workspaceId}/files")]
         public  ActionResult<List<FileOverviewDto>> GetAllWorkspaceFiles(string workspaceId)
         {
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK);
             return mWorkspacesFacade.GetWorkspaceFiles(workspaceId);
         }
   
@@ -62,9 +65,11 @@
         [Route("workspaces/{workspaceId}/files/{fileId}")]
         public IActionResult GetFileModelAsync(string workspaceId, string fileId)
         {
-            var result1 =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
-         
-            return File(result1.FileBytes, result1.ContentType , result1.FileName);
+            var result =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
+
+            mAuditLogger.Debug(User?.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "undefined", ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+
+            return File(result.FileBytes, result.ContentType , result.FileName);
         }
     
         [HttpGet]
@@ -73,7 +78,7 @@
         {
             var result = mWorkspacesFacade.GetWorkspace(id);
             
-            mAuditLogger.Debug("Patryk .Net Dev have to provide user somehow", ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? "200" : "400" );
+            mAuditLogger.Debug(RetrieveUsername() , ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest );
             
             return result;
         }
@@ -83,14 +88,16 @@
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string id)
         {
             mWorkspacesFacade.DeleteWorkspace(id);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
             return NoContent();
         }
 
         [HttpDelete]
         [Route("workspaces/{workspaceId}/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string workspaceId, string fileId)
-        {
+        {   
             mWorkspacesFacade.RemoveFileFromWorkspace(workspaceId, fileId);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
             return NoContent();
         }
 
@@ -102,7 +109,7 @@
             {
                 return BadRequest();
             }
-
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK);
             mWorkspacesFacade.UpdateWorkspace(id, workspaceModelDto);
 
             return NoContent();
@@ -120,6 +127,11 @@
             mWorkspacesFacade.UpdateWorkspaceFile(workspaceId, fileId, fileModelDto);
 
             return NoContent();
+        }
+
+        private string RetrieveUsername()
+        {
+            return User?.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "undefined";
         }
     }
 }

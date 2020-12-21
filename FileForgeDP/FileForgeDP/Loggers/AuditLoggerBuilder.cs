@@ -18,35 +18,35 @@ namespace FileForgeDP.Loggers
 
         public ILoggerBuilder BuildAction()
         {
-            mFormatStringBuilder.Append(LogerOptionsConstants.USE_ACTION);
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_ACTION);
             mFormatStringBuilder.Append(" ");
             return this;
         }
 
         public ILoggerBuilder BuildActionStatus()
         {
-            mFormatStringBuilder.Append(LogerOptionsConstants.USE_ACTION_STATUS);
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_ACTION_STATUS);
             mFormatStringBuilder.Append(" ");
             return this;
         }
 
         public ILoggerBuilder BuildActionType()
         {
-            mFormatStringBuilder.Append(LogerOptionsConstants.USE_ACTION_TYPE);
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_ACTION_TYPE);
             mFormatStringBuilder.Append(" ");
             return this;
         }
 
         public ILoggerBuilder BuildActor()
         {
-            mFormatStringBuilder.Append(LogerOptionsConstants.USE_ACTOR);
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_ACTOR);
             mFormatStringBuilder.Append(" ");
             return this;
         }
 
         public ILoggerBuilder BuildTimeStamp()
         {
-            mFormatStringBuilder.Append(LogerOptionsConstants.USE_TIMESTAMP);
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_TIMESTAMP);
             mFormatStringBuilder.Append(" ");
             return this;
         }

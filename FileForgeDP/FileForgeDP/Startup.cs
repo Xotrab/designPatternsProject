@@ -91,12 +91,14 @@ namespace FileForgeDP
             {
                 o.Authority = Configuration["Jwt:Authority"];
                 o.Audience = Configuration["Jwt:Audience"];
+                o.RequireHttpsMetadata = false;
+                o.IncludeErrorDetails = true;
                 o.Events = new JwtBearerEvents()
                 {
                     OnAuthenticationFailed = (x) =>
                     {
                         x.NoResult();
-
+                        
                         x.Response.StatusCode = 500;
                         x.Response.ContentType = "text/plain";
                         return x.Response.WriteAsync(x.Exception.ToString());
