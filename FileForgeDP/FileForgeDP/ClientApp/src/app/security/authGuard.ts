@@ -32,8 +32,8 @@ export class AuthGuard implements CanActivate {
         if (expectedrole == null) {
             return true;
         }
+
         var claims = <any>this.oauthService.getIdentityClaims();
-        var result = claims.preferred_username == 'admin' ? true : false;
-        return result;
+        return Array.of(claims.user_roles).find((x) => x == 'Administrator') != -1;
     }
 }
