@@ -4,6 +4,7 @@ namespace FileForgeDP
     using FileForgeDP.Database.Repositories;
     using FileForgeDP.Facades;
     using FileForgeDP.Loggers;
+    
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -14,12 +15,16 @@ namespace FileForgeDP
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
     using System;
     using System.IO;
+    using System.Linq;
+    using System.Net;
 
     public class Startup
     {
         private readonly string mCorsPolicy = "Konrad to powazny programista";
+        
 
         public Startup(IConfiguration configuration)
         {
@@ -129,6 +134,43 @@ namespace FileForgeDP
 
             app.UseRouting();
             app.UseCors(mCorsPolicy);
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode > 400)
+                {
+                    var logger = app.ApplicationServices.GetService<ILogger>();
+
+                    ActionEnum actionEnum;
+
+                    switch(context.Request.Method)
+                    {
+                        case "GET":
+                            actionEnum = ActionEnum.GET;
+                            break;
+                        case "DELETE":
+                            actionEnum = ActionEnum.DELETE;
+                            break;
+
+                        case "PUT":
+                            actionEnum = ActionEnum.UPDATE;
+                            break;
+                        case "POST":
+                            actionEnum = ActionEnum.UPLOAD;
+                            break;
+                        default:
+                            actionEnum = ActionEnum.GET;
+                            break;
+                    }
+                        
+                    logger.Debug(context.User?.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "undefined", actionEnum, context.Request.Path.Value, HttpStatusCode.Unauthorized);
+                   
+                }
+            });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
