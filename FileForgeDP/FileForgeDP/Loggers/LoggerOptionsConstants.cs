@@ -1,6 +1,6 @@
 ﻿namespace FileForgeDP.Loggers
 {
-    public static class LogerOptionsConstants
+    public static class LoggerOptionsConstants
     {
         public static string USE_ACTION = "[ACTION]";
         public static string USE_TIMESTAMP = "[TIMESTAMP]";
