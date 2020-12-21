@@ -34,7 +34,7 @@ import { FileUploadDialogComponent } from './workspaces-overview/workspace-compo
 import { FileDndDirective } from './directives/file-dnd.directive';
 import { UserService } from './services/user.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
-
+import { AuthGuard } from './security/authGuard';
 @NgModule({
     declarations: [
         AppComponent,
@@ -73,9 +73,9 @@ import { OAuthModule } from 'angular-oauth2-oidc';
         MatDialogModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        OAuthModule.forRoot()
-  ],
-    providers: [UserService],
+        OAuthModule.forRoot(),
+    ],
+    providers: [UserService, AuthGuard],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
