@@ -1,4 +1,6 @@
+import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -10,9 +12,13 @@ export class HomeComponent implements OnInit {
 
     link: string = this.links[1];
 
-    constructor() {}
+    constructor(private oauthService: OAuthService, private router: Router) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if (this.oauthService.hasValidAccessToken()) {
+            this.router.navigate(['/workspaces']);
+        }
+    }
 
     changeLinkAndComponent() {
         this.link = this.link == this.links[0] ? this.links[1] : this.links[0];
