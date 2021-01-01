@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { WorkspaceService } from '../../services/workspace.service';
 import { WorkspaceModelDto } from '../../models/workspace/workspace-dto';
+import { Mediator } from 'src/app/interfaces/mediator';
 
 @Component({
     selector: 'app-workspace-sidebar',
@@ -11,12 +12,14 @@ export class WorkspaceSidebarComponent implements OnInit {
     @Output('workspaceChangeEvent') workspaceChangeEvent = new EventEmitter<WorkspaceModelDto>();
 
     constructor(private mWorkspaceService: WorkspaceService) {}
+    @Input() mediator: Mediator;
     workspaces: WorkspaceModelDto[];
     highlighted = null;
 
     onClick(i) {
         this.highlighted = i;
-        this.workspaceChangeEvent.emit(this.workspaces[i]);
+        //this.workspaceChangeEvent.emit(this.workspaces[i]);
+        this.mediator.notify(this, {type: 'workspaceChange', content: this.workspaces[i]})
     }
     ngOnInit(): void {
         this.mWorkspaceService.getWorkspacesOverview('5f99cd14985e3f043152b51b').subscribe(
