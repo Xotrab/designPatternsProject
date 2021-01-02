@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { WorkspaceService } from '../../services/workspace.service';
 import { FileUploadDialogComponent } from './file-upload-dialog/file-upload-dialog.component';
 import { Mediator } from 'src/app/interfaces/mediator';
+import { FileRemoveDialogComponent } from './file-remove-dialog/file-remove-dialog.component';
 
 @Component({
     selector: 'app-workspace',
@@ -127,5 +128,16 @@ export class WorkspaceComponent implements OnInit {
 
     downloadFile(idOfWorkspace: string, idOfFile: string, fname: string) {
         this.mediator.notify(this,{type:'downloadFile', content: {workspaceId: idOfWorkspace, fileId: idOfFile, filename: fname}});
+    }
+
+    openRemoveDialog(wId : string, fId : string, fName : string){
+        const dialogRef = this.dialog.open(FileRemoveDialogComponent, {
+            data: {filename: fName},
+        });
+        dialogRef.afterClosed().subscribe((result) =>{
+            if(result == 'accept'){
+                this.mediator.notify(this, {type:'removeFile', content: {workspaceId: wId, fileId: fId}});
+            }
+        });
     }
 }
