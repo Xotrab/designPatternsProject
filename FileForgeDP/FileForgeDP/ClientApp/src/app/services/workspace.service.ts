@@ -26,4 +26,8 @@ export class WorkspaceService {
             { responseType: 'blob' as 'json' }
         );
     }
+
+    public removeWorkspaceFile(workspaceId : string, fileId: string){
+        return this.http.delete(environment.apiUrl + 'workspaces/' + workspaceId + '/files/' + fileId);
+    }
 }
