@@ -27,7 +27,7 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                     break;
                     case 'workspaceChange':
                         this.currentWorkspace = event.content;
-                        this.mWorkspaceService.getWorkspacesOverview(this.currentWorkspace.id).subscribe(
+                        this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
                             (result: FileModelDto[]) => {
                                 this.workspace.setWorkspace(result, this.currentWorkspace);
                             },
