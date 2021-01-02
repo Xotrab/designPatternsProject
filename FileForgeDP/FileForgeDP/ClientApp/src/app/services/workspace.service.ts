@@ -9,7 +9,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class WorkspaceService {
     constructor(private http: HttpClient, private oauthService: OAuthService) {}
 
-    getWorkspacesOverview(id: String) {
+    public getWorkspaceFiles(id: String) {
         return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
     }
 
