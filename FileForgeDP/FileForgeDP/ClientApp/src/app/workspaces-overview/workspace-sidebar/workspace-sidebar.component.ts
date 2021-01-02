@@ -22,7 +22,7 @@ export class WorkspaceSidebarComponent implements OnInit {
         this.mediator.notify(this, {type: 'workspaceChange', content: this.workspaces[i]})
     }
     ngOnInit(): void {
-        this.mWorkspaceService.getWorkspacesOverview('5f99cd14985e3f043152b51b').subscribe(
+        this.mWorkspaceService.getWorkspaceFiles('5f99cd14985e3f043152b51b').subscribe(
             (result) => {
                 console.log();
                 console.log(JSON.stringify(result));
