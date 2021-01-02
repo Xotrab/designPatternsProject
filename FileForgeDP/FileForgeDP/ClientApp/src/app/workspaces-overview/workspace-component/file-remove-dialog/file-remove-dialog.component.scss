@@ -1,0 +1,13 @@
+@import '../../../../variables';
+
+::ng-deep.mat-dialog-container {
+    background: $gray-highlight !important;
+    color: $white-color !important;
+}
+
+.dialog-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
