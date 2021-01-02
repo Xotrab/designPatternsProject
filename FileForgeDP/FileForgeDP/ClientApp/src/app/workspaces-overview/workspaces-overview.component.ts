@@ -64,6 +64,24 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                             (error) => { throw new Error(error); }
                         );    
                     break;
+                    case 'removeFile':
+                        var workspaceId = event.content.workspaceId;
+                        var fileId = event.content.fileId;
+
+                        this.mWorkspaceService.removeWorkspaceFile(workspaceId, fileId).subscribe(
+                            (response : any) => {
+                                this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
+                                    (result: FileModelDto[]) => {
+                                        this.workspace.setWorkspace(result, this.currentWorkspace);
+                                    },
+                                    (error) => {
+                                        throw new Error(error);
+                                    }
+                                );
+                            },
+                            (error) => {throw new Error(error);}
+                        );
+                    break;
                     default:
                         throw new Error('Unexpected sidebar operation');
                 }
