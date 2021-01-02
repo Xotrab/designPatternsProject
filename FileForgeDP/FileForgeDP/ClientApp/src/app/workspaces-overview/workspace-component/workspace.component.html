@@ -54,7 +54,7 @@
                     <div class ="detail-control-buttons">
                         <button mat-raised-button color="primary" (click)="downloadFile(file.groupId,file.id,file.fileName)"> Download </button>
                         <button mat-raised-button color="primary"> Update </button>
-                        <button mat-raised-button color="primary"> Remove </button>
+                        <button mat-raised-button color="primary" (click)="openRemoveDialog(file.groupId, file.id, file.fileName)"> Remove </button>
                     </div>
                 </div>
               </div>
