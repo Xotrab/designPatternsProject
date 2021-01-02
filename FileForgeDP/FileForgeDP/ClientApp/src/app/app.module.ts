@@ -36,6 +36,7 @@ import { FileDndDirective } from './directives/file-dnd.directive';
 import { UserService } from './services/user.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthGuard } from './security/authGuard';
+import { FileRemoveDialogComponent } from './workspaces-overview/workspace-component/file-remove-dialog/file-remove-dialog.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -52,6 +53,7 @@ import { AuthGuard } from './security/authGuard';
         WorkspaceComponent,
         FileUploadDialogComponent,
         FileDndDirective,
+        FileRemoveDialogComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
