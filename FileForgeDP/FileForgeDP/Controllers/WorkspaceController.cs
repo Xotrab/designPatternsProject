@@ -93,7 +93,7 @@
         }
 
         [HttpDelete]
-        [Route("workspaces/{workspaceId}/{fileId}")]
+        [Route("workspaces/{workspaceId}/files/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string workspaceId, string fileId)
         {   
             mWorkspacesFacade.RemoveFileFromWorkspace(workspaceId, fileId);
