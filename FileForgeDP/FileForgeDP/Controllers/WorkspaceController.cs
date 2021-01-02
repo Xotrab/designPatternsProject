@@ -116,7 +116,7 @@
         }
 
         [HttpPut]
-        [Route("workspaces/{workspaceId}/{fileId}")]
+        [Route("workspaces/{workspaceId}/files/{fileId}")]
         public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
         {
             if (fileId != fileModelDto.Id || workspaceId != fileModelDto.GroupId)
