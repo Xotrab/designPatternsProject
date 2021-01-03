@@ -11,6 +11,8 @@ import { WorkspaceService } from '../../services/workspace.service';
 import { FileUploadDialogComponent } from './file-upload-dialog/file-upload-dialog.component';
 import { Mediator } from 'src/app/interfaces/mediator';
 import { FileRemoveDialogComponent } from './file-remove-dialog/file-remove-dialog.component';
+import { FileUpdateDialogComponent } from './file-update-dialog/file-update-dialog.component';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-workspace',
@@ -137,6 +139,23 @@ export class WorkspaceComponent implements OnInit {
         dialogRef.afterClosed().subscribe((result) =>{
             if(result == 'accept'){
                 this.mediator.notify(this, {type:'removeFile', content: {workspaceId: wId, fileId: fId}});
+            }
+        });
+    }
+
+    openUpdateDialog(wId : string, fId: string, fName : string){
+        const dialogRef = this.dialog.open(FileUpdateDialogComponent, {
+            data: {filename: fName, newFilename: "", newDescription: ""},
+        });
+        dialogRef.afterClosed().subscribe((result) =>{
+            if(result.decision == 'update'){
+
+                var newFilename = result.data.newFilename;
+                if(newFilename != ""){
+                    var extension = fName.split('.').pop();
+                    newFilename = newFilename + "." + extension;
+                }
+                this.mediator.notify(this, {type:'updateFile', content: {workspaceId: wId, fileId: fId, filename: newFilename, description: result.data.newDescription}});
             }
         });
     }
