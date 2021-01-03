@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { FileModelDto } from '../models/file/file-dto';
 
 @Injectable({
     providedIn: 'root',
@@ -29,5 +30,9 @@ export class WorkspaceService {
 
     public removeWorkspaceFile(workspaceId : string, fileId: string){
         return this.http.delete(environment.apiUrl + 'workspaces/' + workspaceId + '/files/' + fileId);
+    }
+
+    public updateWorkspaceFile(workspaceId: String, fileId: String, update: FileModelDto){
+        return this.http.put(environment.apiUrl + 'workspaces/' + workspaceId + '/files/' + fileId, update);
     }
 }
