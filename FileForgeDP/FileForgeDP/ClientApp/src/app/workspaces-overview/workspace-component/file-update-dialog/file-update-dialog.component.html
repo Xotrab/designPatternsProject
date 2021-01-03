@@ -1,0 +1,9 @@
+<p>Updating {{data.filename}}:</p>
+
+<form>
+
+    <input name = "filename" [(ngModel)]="data.newFilename">
+    <input name = "description" [(ngModel)]="data.newDescription">
+    <button (click)="onCancel()"> Cancel </button>
+    <button type="submit" (click)="onSubmit()"> Update </button>
+ </form>
