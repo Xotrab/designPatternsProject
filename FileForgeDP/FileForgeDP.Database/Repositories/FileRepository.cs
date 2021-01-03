@@ -45,14 +45,16 @@
         public void Update(string id, FileModel fileModel)
         {
             var update = MongoUpdateQueryBuilder<FileModel>.Builder();
-            if (fileModel.FileName != null )
+            if (fileModel.FileName != "" )
             {
                 update.Add("FileName", fileModel.FileName);
             }
-            if (fileModel.Description != null)
+            if (fileModel.Description != "")
             {
                 update.Add("Description", fileModel.Description);
             }
+            update.Add("LastModificationDate", fileModel.LastModificationDate);
+            update.Add("LastModifiedBy", fileModel.LastModifiedBy);
             mFiles.UpdateOne(file => file.Id == fileModel.Id, update.Build());
         }
 
