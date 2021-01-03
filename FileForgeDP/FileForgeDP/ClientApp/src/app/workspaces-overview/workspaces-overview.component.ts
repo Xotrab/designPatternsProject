@@ -5,6 +5,7 @@ import { WorkspaceModelDto } from '../models/workspace/workspace-dto';
 import { WorkspaceService } from '../services/workspace.service';
 import { WorkspaceComponent } from './workspace-component/workspace.component';
 import { WorkspaceSidebarComponent } from './workspace-sidebar/workspace-sidebar.component';
+import { formatDate } from '@angular/common';
 
 @Component({
     selector: 'app-workspaces-overview',
@@ -69,6 +70,31 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                         var fileId = event.content.fileId;
 
                         this.mWorkspaceService.removeWorkspaceFile(workspaceId, fileId).subscribe(
+                            (response : any) => {
+                                this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
+                                    (result: FileModelDto[]) => {
+                                        this.workspace.setWorkspace(result, this.currentWorkspace);
+                                    },
+                                    (error) => {
+                                        throw new Error(error);
+                                    }
+                                );
+                            },
+                            (error) => {throw new Error(error);}
+                        );
+                    break;
+                    case 'updateFile':
+                        var update : FileModelDto = {
+                        id : event.content.fileId,
+                        groupId : event.content.workspaceId,
+                        description : event.content.description,
+                        fileName : event.content.filename,
+                        file : null,
+                        contentType : null,
+                        lastModificationDate : String(formatDate(new Date(), 'dd/MM/yyyy', 'en')),
+                        lastModifiedBy : "Modyfikator190" //TODO later change depending on the user performing the update
+                        };
+                        this.mWorkspaceService.updateWorkspaceFile(update.groupId, update.id, update).subscribe(
                             (response : any) => {
                                 this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
                                     (result: FileModelDto[]) => {
