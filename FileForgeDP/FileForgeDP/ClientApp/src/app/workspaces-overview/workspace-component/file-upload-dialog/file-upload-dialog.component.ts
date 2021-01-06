@@ -1,16 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { WorkspaceService } from 'src/app/services/workspace.service';
 import { FileModelDto } from '../../../models/file/file-dto';
 
-import { formatDate } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { catchError, map } from 'rxjs/operators';
 
 export interface DialogData {
     workspaceId: String;
 }
+
 
 @Component({
     selector: 'app-file-upload-dialog',
@@ -24,13 +23,19 @@ export class FileUploadDialogComponent implements OnInit {
     isHovering: boolean;
 
     base64File: String;
-    isShaking: boolean = false;
 
+    showDescription: boolean = false; //flag to determine whether app should show field for description
+    currentlyDescribed: number; //Index of file to which user is  writing a description
+    public description : String = "";
+
+    isShaking: boolean = false;
     isOpen: boolean = true;
     isDone: { value: boolean } = { value: false }; // a little workaround to pass the flag by reference.
     fileUploadProgresses: Array<number> = new Array<number>();
 
+
     onUpload = new EventEmitter();
+
     constructor(
         private mSnackBar: MatSnackBar,
         private mWorkspaceService: WorkspaceService,
@@ -44,9 +49,33 @@ export class FileUploadDialogComponent implements OnInit {
         this.isHovering = event;
     }
 
+    cutName(name: string): string {
+        const boundary = 10;
+        var parts = name.split('.');
+        var extension;
+        var filename;
+        if (parts.length > 1) {
+            extension = parts.pop();
+            filename = parts.join('.');
+        } else {
+            filename = parts[0];
+        }
+        if (filename.length > boundary) {
+            return parts[0].slice(0, boundary) + '...';
+        } else return name;
+    }
+
+    onDescriptionFieldOpen(index : number)
+    {
+        this.showDescription = true;
+        this.currentlyDescribed = index;
+        this.description = this.fileList[index].description;
+    }
+    descriptionChange(index: number) {}
+
     handleDrop(fileList: FileList) {
         if (fileList.length + this.fileList.length > 3) {
-            this.onExceed();
+            this.onAmountExceed();
         } else {
             Array.from(fileList).forEach((file) => {
                 this.toBase64(file);
@@ -84,7 +113,7 @@ export class FileUploadDialogComponent implements OnInit {
     onCancel() {
         this.dialogRef.close();
     }
-    onExceed() {
+    onAmountExceed() {
         this.mSnackBar.open('Hey, slow down! Too many files!', 'Okay, sorry :<', {
             duration: 3000,
         });
@@ -92,6 +121,20 @@ export class FileUploadDialogComponent implements OnInit {
         setTimeout(() => {
             this.isShaking = false;
         }, 600);
+    }
+    onDescriptionSave()
+    {
+        var index = this.currentlyDescribed;
+        this.showDescription=false;
+        this.fileList[index].description = this.description;
+        this.description = null;
+        this.currentlyDescribed = null;
+    }
+    onDescriptionDiscard()
+    {
+        this.showDescription = false;
+        this.description = null;
+        this.currentlyDescribed = null;
     }
 
     uploadFiles() {

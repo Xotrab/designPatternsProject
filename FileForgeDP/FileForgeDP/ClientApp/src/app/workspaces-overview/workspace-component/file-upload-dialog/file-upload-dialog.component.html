@@ -1,40 +1,69 @@
-<div class="file-upload-dialog-content">
+<div *ngIf="isOpen; then open; else closed"></div>
 
-    <div class="topbar">ADD FILES</div>
-    <mat-list>
-        <div  class="items-container">
-            <div *ngFor="let file of fileList; let i=index">
-                <mat-list-item>
-                    <div class="file-to-upload">
-                        {{file.fileName}}
-                        <i class="far fa-file"></i>
-                        <div (click)="removeFromUploadBuffer(i)">
-                            <i class="fas fa-times"></i>
+<ng-template #open >
+    <div class="file-upload-dialog-content">
+        <div class="topbar">ADD FILES</div>
+        <mat-list>
+            <div class="items-container">
+                <div *ngFor="let file of fileList; let i=index">
+                    <mat-list-item>
+                        <div class="file-to-upload">
+                            <i class="far fa-file"></i>
+                            <span (click)="onDescriptionFieldOpen(i)">{{this.cutName(file.fileName)}}</span>
+                            <i class="fas fa-times" (click)="removeFromUploadBuffer(i)"></i>
                         </div>
-                    </div>
-
-                </mat-list-item>
+                    </mat-list-item>
+                </div>
             </div>
+        </mat-list>
+        
+        <div *ngIf="showDescription" class="description-field">
+                <textarea [(ngModel)]="description" maxlength=250>
+                </textarea>
+                <div class="save-button-wrapper">
+                    <button mat-raised-button (click)="onDescriptionDiscard()" style="margin-right:1rem;">Discard</button>
+                    <button mat-raised-button color="primary" (click)="onDescriptionSave()">Save</button>
+                </div>
         </div>
-    </mat-list>
-
-    <div class="dropzone" appFileDnd (filesDropped) = "handleDrop($event)" (filesHovered) = "toggleHover($event)" [class.hovering] = "isHovering" [class.shaking]="isShaking">
-        <div class="dialog-message" [class.hovering] = "isHovering" [class.shaking]="isShaking">
-            <div class="text">
-                <p>Drag and drop files here</p>
-                <p>(limit of files: 3)</p>
+    
+        <div class="dropzone" appFileDnd (filesDropped)="handleDrop($event)" (filesHovered)="toggleHover($event)"
+            [class.hovering]="isHovering" [class.shaking]="isShaking">
+            <div class="dialog-message" [class.hovering]="isHovering" [class.shaking]="isShaking">
+                <div class="text">
+                    <p>Drag and drop files here</p>
+                    <p>(limit of files: 3)</p>
+                </div>
+                <i class="fas fa-file-upload fa-7x"></i>
             </div>
-            <i class="fas fa-file-upload fa-7x"></i>
+            <!-- <div *ngIf="isEmpty; then message; else files"></div>
+                <ng-template #message>
+                </ng-template>
+                <ng-template #files>
+                </ng-template> -->
         </div>
-        <!-- <div *ngIf="isEmpty; then message; else files"></div>
-        <ng-template #message>
-        </ng-template>
-        <ng-template #files>
-        </ng-template> -->
+        <div class="dialog-buttons">
+            <button mat-raised-button (click)="onCancel()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="uploadFiles()">Upload</button>
+        </div>
     </div>
-    <div class="dialog-buttons">
-        <button mat-raised-button (click)="onCancel()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="uploadFiles()">Upload</button>
+</ng-template>
+<ng-template #closed>
+    <div class="file-upload-dialog-content">
+        <div class="topbar">UPLOADING</div>
+        <mat-list>
+            <div class="items-container">
+                <div *ngFor="let file of fileList; let i=index">
+                    <mat-list-item>
+                        <div class="file-to-upload">
+                            {{this.cutName(file.fileName)}}
+                            <i class="far fa-file"></i>
+                        </div>
+                    </mat-list-item>
+                </div>
+            </div>
+        </mat-list>
+        <div class="dialog-buttons" [hidden]="!isDone.value">
+            <button mat-raised-button (click)="onCancel()">Close</button>
+        </div>
     </div>
-
-</div>
+</ng-template>
