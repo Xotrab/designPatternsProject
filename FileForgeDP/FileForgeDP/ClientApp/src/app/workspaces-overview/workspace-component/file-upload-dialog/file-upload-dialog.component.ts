@@ -26,8 +26,11 @@ export class FileUploadDialogComponent implements OnInit {
     base64File: String;
     isShaking: boolean = false;
 
+    isOpen: boolean = true;
+    isDone: { value: boolean } = { value: false }; // a little workaround to pass the flag by reference.
     fileUploadProgresses: Array<number> = new Array<number>();
 
+    onUpload = new EventEmitter();
     constructor(
         private mSnackBar: MatSnackBar,
         private mWorkspaceService: WorkspaceService,
@@ -92,41 +95,14 @@ export class FileUploadDialogComponent implements OnInit {
     }
 
     uploadFiles() {
-        var count = 0;
-        this.fileList.forEach((file) => {
-            this.uploadFile(count++, file);
-            this.fileUploadProgresses.push(0);
+        this.isOpen = false;
+        this.onUpload.emit({
+            files: this.fileList,
+            progressList: this.fileUploadProgresses,
+            doneFlag: this.isDone,
         });
-    }
-
-    uploadFile(fileNumber: number, file: FileModelDto) {
-        const formatData = new FormData();
-        formatData.append('file', file.file);
-        formatData.append('fileName', file.file.name);
-        formatData.append('lastModificationDate', <string>file.lastModificationDate);
-        formatData.append('description', <string>file.description);
-        formatData.append('lastModifiedBy', <string>file.lastModifiedBy);
-
-        this.mWorkspaceService
-            .uploadWorkspaceFile(file.groupId, formatData)
-            .pipe(
-                map((event) => {
-                    switch (event.type) {
-                        case HttpEventType.UploadProgress:
-                            this.fileUploadProgresses[fileNumber] = Math.round(
-                                (event.loaded * 100) / event.total
-                            );
-                            console.log(this.fileUploadProgresses);
-                            break;
-                        case HttpEventType.Response:
-                            return event;
-                    }
-                })
-            )
-            .subscribe((event: any) => {
-                if (typeof event === 'object') {
-                    console.log(event.body);
-                }
-            });
+        while (!this.isDone) {
+            console.log('Pobranko');
+        }
     }
 }

@@ -1,11 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { HttpEventType } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Mediator } from '../interfaces/mediator';
 import { FileModelDto } from '../models/file/file-dto';
 import { WorkspaceModelDto } from '../models/workspace/workspace-dto';
 import { WorkspaceService } from '../services/workspace.service';
 import { WorkspaceComponent } from './workspace-component/workspace.component';
 import { WorkspaceSidebarComponent } from './workspace-sidebar/workspace-sidebar.component';
-import { formatDate } from '@angular/common';
 
 @Component({
     selector: 'app-workspaces-overview',
@@ -20,35 +22,49 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
 
     notify(sender: object, event: { type: String; content: any }): void {
         switch (sender) {
-
             case this.sidebar:
                 switch (event.type) {
                     case 'loadWorkspaces':
-                        throw new Error("XD");
-                    break;
+                        throw new Error('XD');
+                        break;
                     case 'workspaceChange':
                         this.currentWorkspace = event.content;
-                        this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
-                            (result: FileModelDto[]) => {
-                                this.workspace.setWorkspace(result, this.currentWorkspace);
-                            },
-                            (error) => {
-                                throw new Error(error);
-                            }
-                        );
+                        this.mWorkspaceService
+                            .getWorkspaceFiles(this.currentWorkspace.id)
+                            .subscribe(
+                                (result: FileModelDto[]) => {
+                                    this.workspace.setWorkspace(result, this.currentWorkspace);
+                                },
+                                (error) => {
+                                    throw new Error(error);
+                                }
+                            );
                         break;
                     default:
                         throw new Error('Unexpected sidebar operation');
                 }
-            break;
+                break;
 
             case this.workspace:
                 switch (event.type) {
+                    case 'uploadFiles':
+                        var files = event.content.files;
+                        var progress = event.content.progressList;
+                        var isDone = event.content.doneFlag;
+                        var count = 0;
+
+                        files.forEach((file) => {
+                            progress.push(0);
+                            this.uploadFile(count++, file, progress);
+                        });
+                        isDone.value = true;
+                        break;
+
                     case 'downloadFile':
-                       var workspaceId = event.content.workspaceId;
-                       var fileId = event.content.fileId;
-                       var filename = event.content.filename;
-                       
+                        var workspaceId = event.content.workspaceId;
+                        var fileId = event.content.fileId;
+                        var filename = event.content.filename;
+
                         this.mWorkspaceService.downloadWorkspaceFile(workspaceId, fileId).subscribe(
                             (response: any) => {
                                 let dataType = response.type;
@@ -62,52 +78,72 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                                 document.body.appendChild(downloadLink);
                                 downloadLink.click();
                             },
-                            (error) => { throw new Error(error); }
-                        );    
-                    break;
+                            (error) => {
+                                throw new Error(error);
+                            }
+                        );
+                        break;
                     case 'removeFile':
                         var workspaceId = event.content.workspaceId;
                         var fileId = event.content.fileId;
 
                         this.mWorkspaceService.removeWorkspaceFile(workspaceId, fileId).subscribe(
-                            (response : any) => {
-                                this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
-                                    (result: FileModelDto[]) => {
-                                        this.workspace.setWorkspace(result, this.currentWorkspace);
-                                    },
-                                    (error) => {
-                                        throw new Error(error);
-                                    }
-                                );
+                            (response: any) => {
+                                this.mWorkspaceService
+                                    .getWorkspaceFiles(this.currentWorkspace.id)
+                                    .subscribe(
+                                        (result: FileModelDto[]) => {
+                                            this.workspace.setWorkspace(
+                                                result,
+                                                this.currentWorkspace
+                                            );
+                                        },
+                                        (error) => {
+                                            throw new Error(error);
+                                        }
+                                    );
                             },
-                            (error) => {throw new Error(error);}
+                            (error) => {
+                                throw new Error(error);
+                            }
                         );
-                    break;
+                        break;
                     case 'updateFile':
-                        var update : FileModelDto = {
-                        id : event.content.fileId,
-                        groupId : event.content.workspaceId,
-                        description : event.content.description,
-                        fileName : event.content.filename,
-                        file : null,
-                        contentType : null,
-                        lastModificationDate : String(formatDate(new Date(), 'dd/MM/yyyy', 'en')),
-                        lastModifiedBy : "Modyfikator190" //TODO later change depending on the user performing the update
+                        var update: FileModelDto = {
+                            id: event.content.fileId,
+                            groupId: event.content.workspaceId,
+                            description: event.content.description,
+                            fileName: event.content.filename,
+                            file: null,
+                            contentType: null,
+                            lastModificationDate: String(
+                                formatDate(new Date(), 'dd/MM/yyyy', 'en')
+                            ),
+                            lastModifiedBy: 'Modyfikator190', //TODO later change depending on the user performing the update
                         };
-                        this.mWorkspaceService.updateWorkspaceFile(update.groupId, update.id, update).subscribe(
-                            (response : any) => {
-                                this.mWorkspaceService.getWorkspaceFiles(this.currentWorkspace.id).subscribe(
-                                    (result: FileModelDto[]) => {
-                                        this.workspace.setWorkspace(result, this.currentWorkspace);
-                                    },
-                                    (error) => {
-                                        throw new Error(error);
-                                    }
-                                );
-                            },
-                            (error) => {throw new Error(error);}
-                        );
-                    break;
+                        this.mWorkspaceService
+                            .updateWorkspaceFile(update.groupId, update.id, update)
+                            .subscribe(
+                                (response: any) => {
+                                    this.mWorkspaceService
+                                        .getWorkspaceFiles(this.currentWorkspace.id)
+                                        .subscribe(
+                                            (result: FileModelDto[]) => {
+                                                this.workspace.setWorkspace(
+                                                    result,
+                                                    this.currentWorkspace
+                                                );
+                                            },
+                                            (error) => {
+                                                throw new Error(error);
+                                            }
+                                        );
+                                },
+                                (error) => {
+                                    throw new Error(error);
+                                }
+                            );
+                        break;
                     default:
                         throw new Error('Unexpected sidebar operation');
                 }
@@ -118,5 +154,37 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
     ngOnInit(): void {}
     public onWorkspaceChange(event: WorkspaceModelDto) {
         this.currentWorkspace = event;
+    }
+    
+    uploadFile(fileNumber: number, file: FileModelDto, progress : Array<number>) {
+        const formatData = new FormData();
+        formatData.append('file', file.file);
+        formatData.append('fileName', file.file.name);
+        formatData.append('lastModificationDate', <string>file.lastModificationDate);
+        formatData.append('description', <string>file.description);
+        formatData.append('lastModifiedBy', <string>file.lastModifiedBy);
+
+        console.log("Wysylanko");
+        this.mWorkspaceService
+            .uploadWorkspaceFile(file.groupId, formatData)
+            .pipe(
+                map((event) => {
+                    switch (event.type) {
+                        case HttpEventType.UploadProgress:
+                            progress[fileNumber] = Math.round(
+                                (event.loaded * 100) / event.total
+                            );
+                            console.log(progress);
+                            break;
+                        case HttpEventType.Response:
+                            return event;
+                    }
+                })
+            )
+            .subscribe((event: any) => {
+                if (typeof event === 'object') {
+                    console.log(event.body);
+                }
+            });
     }
 }
