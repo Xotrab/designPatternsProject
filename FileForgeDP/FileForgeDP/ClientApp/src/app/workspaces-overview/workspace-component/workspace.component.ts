@@ -119,12 +119,19 @@ export class WorkspaceComponent implements OnInit {
         }
     }
 
-    openDialog() {
+    openUploadDialog() {
         const dialogRef = this.dialog.open(FileUploadDialogComponent, {
             data: { workspaceId: this.chosenWorkspace.id },
+            disableClose : true
         });
+        const sub = dialogRef.componentInstance.onUpload.subscribe( uploadData => {
+            this.mediator.notify(this, {type:'uploadFiles', content: uploadData});
+        });
+
         dialogRef.afterClosed().subscribe((result) => {
-            console.log(`Dialog result: ${result}`);
+            sub.unsubscribe();
+            //console.log(`Dialog result: ${result}`);
+            
         });
     }
 
