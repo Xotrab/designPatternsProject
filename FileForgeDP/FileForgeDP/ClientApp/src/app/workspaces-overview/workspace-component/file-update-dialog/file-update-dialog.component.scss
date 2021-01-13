@@ -1,0 +1,69 @@
+@import '../../../../variables';
+
+::ng-deep.mat-dialog-container {
+    background: $gray-highlight !important;
+    color: $white-color !important;
+}
+
+::ng-deep .mat-snack-bar-container{
+    color: $white-color;
+  }
+
+::ng-deep .mat-simple-snackbar-action {
+    color: $primary;
+  }
+
+.update-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .update-form {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        justify-content: center;
+        padding-left: 4rem;
+        padding-right: 4rem;
+        padding-top: 1rem;
+        min-width: 438px;
+
+        .descriptionCheckbox {
+            padding-bottom: 2rem;
+        }
+
+        ::ng-deep.mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+            background-color: $primary;
+        }
+
+        textarea {
+            resize: none;
+            color: $white-color;
+            background-color: $dark-gray-background;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1rem;
+            border-radius: 1rem;
+            border-style: solid;
+            outline: none;
+        }
+
+        ::ng-deep .mat-form-field-label {
+            color: $primary !important;
+        }
+        ::ng-deep input.mat-input-element {
+            color: $white-color;
+            caret-color: $primary !important;
+        }
+    }
+
+    .dialog-buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding-top: 1rem;
+    }
+}

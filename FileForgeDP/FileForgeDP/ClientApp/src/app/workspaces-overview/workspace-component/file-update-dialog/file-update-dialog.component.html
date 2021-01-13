@@ -1,9 +1,28 @@
-<p>Updating {{data.filename}}:</p>
+<div class="update-dialog-content">
 
-<form>
+    <div class="topbar">UPDATING {{data.filename}}:</div>
 
-    <input name = "filename" [(ngModel)]="data.newFilename">
-    <input name = "description" [(ngModel)]="data.newDescription">
-    <button (click)="onCancel()"> Cancel </button>
-    <button type="submit" (click)="onSubmit()"> Update </button>
- </form>
+    <form class="update-form">
+
+        <mat-checkbox [checked]="filenameChecked" (change)="toggleFilename($event)">Update filename</mat-checkbox>
+
+        <div *ngIf="filenameChecked">
+            <mat-form-field style="width:100%">
+                <input matInput name="filename" [(ngModel)]="data.newFilename">
+            </mat-form-field>
+        </div>
+
+        <mat-checkbox class="descriptionCheckbox" [checked]="descriptionChecked" (change)="toggleDescription($event)">
+            Update description</mat-checkbox>
+
+        <div *ngIf="descriptionChecked">
+            <textarea name="description" maxlength="250" cols="36" rows="7"
+                [(ngModel)]="data.newDescription"></textarea>
+        </div>
+
+        <div class="dialog-buttons">
+            <button mat-raised-button (click)="onCancel()"> Cancel </button>
+            <button mat-raised-button color="primary" type="submit" (click)="onSubmit()"> Update </button>
+        </div>
+    </form>
+</div>

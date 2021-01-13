@@ -32,7 +32,6 @@ export class WorkspaceComponent implements OnInit {
     public chosenWorkspace: WorkspaceModelDto;
     //public files: FileModelDto[];
 
-
     columnsToDisplay = ['fileName', 'contentType', 'lastModificationDate', 'lastModificationBy'];
 
     @Input() mediator: Mediator;
@@ -45,7 +44,7 @@ export class WorkspaceComponent implements OnInit {
 
     pageSizeOptions = environment.workspacePageSize;
 
-    tableDisplay: { display: string } = {display: 'none'};
+    tableDisplay: { display: string } = { display: 'none' };
     isTableDisplayed = false;
 
     isDataLoaded = false;
@@ -54,24 +53,23 @@ export class WorkspaceComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    public setWorkspace(files : FileModelDto[], chosenWorkspace: WorkspaceModelDto)
-    {
+    public setWorkspace(files: FileModelDto[], chosenWorkspace: WorkspaceModelDto) {
         this.dataSource.data = files;
         this.chosenWorkspace = chosenWorkspace;
         this.isDataLoaded = true;
-            this.tableDisplay = {
-                display: this.chosenWorkspace.id != null ? 'block' : 'none',
-            };
+        this.tableDisplay = {
+            display: this.chosenWorkspace.id != null ? 'block' : 'none',
+        };
 
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     // ngOnChanges(changes: SimpleChanges) {
     //     //later a place for ../api/workspaces/ID/files GET method
     //     const workspaceChanges = changes['chosenWorkspace'];
     //     const currentWorkspace: WorkspaceModelDto = workspaceChanges.currentValue;
-       
+
     //     //         {
     //     //             id: '83',
     //     //             groupId: '69',
@@ -122,46 +120,64 @@ export class WorkspaceComponent implements OnInit {
     openUploadDialog() {
         const dialogRef = this.dialog.open(FileUploadDialogComponent, {
             data: { workspaceId: this.chosenWorkspace.id },
-            disableClose : true
+            disableClose: true,
         });
-        const sub = dialogRef.componentInstance.onUpload.subscribe( uploadData => {
-            this.mediator.notify(this, {type:'uploadFiles', content: uploadData});
+        const sub = dialogRef.componentInstance.onUpload.subscribe((uploadData) => {
+            this.mediator.notify(this, { type: 'uploadFiles', content: uploadData });
         });
 
         dialogRef.afterClosed().subscribe((result) => {
             sub.unsubscribe();
-            //console.log(`Dialog result: ${result}`); 
+            //console.log(`Dialog result: ${result}`);
         });
     }
 
     downloadFile(idOfWorkspace: string, idOfFile: string, fname: string) {
-        this.mediator.notify(this,{type:'downloadFile', content: {workspaceId: idOfWorkspace, fileId: idOfFile, filename: fname}});
+        this.mediator.notify(this, {
+            type: 'downloadFile',
+            content: { workspaceId: idOfWorkspace, fileId: idOfFile, filename: fname },
+        });
     }
 
-    openRemoveDialog(wId : string, fId : string, fName : string){
+    openRemoveDialog(wId: string, fId: string, fName: string) {
         const dialogRef = this.dialog.open(FileRemoveDialogComponent, {
-            data: {filename: fName},
+            data: { filename: fName },
         });
-        dialogRef.afterClosed().subscribe((result) =>{
-            if(result == 'accept'){
-                this.mediator.notify(this, {type:'removeFile', content: {workspaceId: wId, fileId: fId}});
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result == 'accept') {
+                this.mediator.notify(this, {
+                    type: 'removeFile',
+                    content: { workspaceId: wId, fileId: fId },
+                });
             }
         });
     }
 
-    openUpdateDialog(wId : string, fId: string, fName : string){
+    openUpdateDialog(wId: string, fId: string, fName: string, descr: string) {
         const dialogRef = this.dialog.open(FileUpdateDialogComponent, {
-            data: {filename: fName, newFilename: "", newDescription: ""},
+            data: {
+                filename: fName,
+                newFilename: '',
+                newDescription: '',
+                description: descr == "(no description)" ? "" : descr,
+            },
         });
-        dialogRef.afterClosed().subscribe((result) =>{
-            if(result.decision == 'update'){
-
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result.decision == 'update') {
                 var newFilename = result.data.newFilename;
-                if(newFilename != ""){
+                if (newFilename != '') {
                     var extension = fName.split('.').pop();
-                    newFilename = newFilename + "." + extension;
+                    newFilename = newFilename + '.' + extension;
                 }
-                this.mediator.notify(this, {type:'updateFile', content: {workspaceId: wId, fileId: fId, filename: newFilename, description: result.data.newDescription}});
+                this.mediator.notify(this, {
+                    type: 'updateFile',
+                    content: {
+                        workspaceId: wId,
+                        fileId: fId,
+                        filename: newFilename,
+                        description: result.data.newDescription,
+                    },
+                });
             }
         });
     }

@@ -85,7 +85,7 @@ export class FileUploadDialogComponent implements OnInit {
                 this.fileList.push({
                     id: null,
                     groupId: this.data.workspaceId,
-                    description: '(no description)',
+                    description: '',
                     fileName: file.name,
                     file: file,
                     contentType: file.type,

@@ -164,7 +164,7 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
         formatData.append('file', file.file);
         formatData.append('fileName', file.file.name);
         formatData.append('lastModificationDate', <string>file.lastModificationDate);
-        formatData.append('description', <string>file.description);
+        formatData.append('description', <string>file.description == "" ? "(no description)" : <string>file.description);
         formatData.append('lastModifiedBy', <string>file.lastModifiedBy);
 
         console.log("Wysylanko");
