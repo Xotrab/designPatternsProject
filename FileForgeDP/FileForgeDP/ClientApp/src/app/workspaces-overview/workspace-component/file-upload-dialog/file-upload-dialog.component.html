@@ -8,8 +8,7 @@
                 <div *ngFor="let file of fileList; let i=index">
                     <mat-list-item>
                         <div class="file-to-upload">
-                            <i class="far fa-file"></i>
-                            <span (click)="onDescriptionFieldOpen(i)">{{this.cutName(file.fileName)}}</span>
+                            <span (click)="onDescriptionFieldOpen(i)" [ngClass]="(highlightedFile == i) ? 'highlighted-filename' : 'filename'">{{this.cutName(file.fileName)}}</span>
                             <i class="fas fa-times" (click)="removeFromUploadBuffer(i)"></i>
                         </div>
                     </mat-list-item>
@@ -21,8 +20,9 @@
                 <textarea [(ngModel)]="description" maxlength=250>
                 </textarea>
                 <div class="save-button-wrapper">
-                    <button mat-raised-button (click)="onDescriptionDiscard()" style="margin-right:1rem;">Discard</button>
+                    <button mat-raised-button class="discard" (click)="onDescriptionDiscard()">Cancel</button>
                     <button mat-raised-button color="primary" (click)="onDescriptionSave()">Save</button>
+                    <!-- <i class="fas fa-angle-up" (click)="onDescriptionSave()"></i> -->
                 </div>
         </div>
     
@@ -33,7 +33,7 @@
                     <p>Drag and drop files here</p>
                     <p>(limit of files: 3)</p>
                 </div>
-                <i class="fas fa-file-upload fa-7x"></i>
+                <i class="fas fa-file-upload" style="font-size: 7rem"></i>
             </div>
             <!-- <div *ngIf="isEmpty; then message; else files"></div>
                 <ng-template #message>
@@ -54,9 +54,12 @@
             <div class="items-container">
                 <div *ngFor="let file of fileList; let i=index">
                     <mat-list-item>
-                        <div class="file-to-upload">
+                        <div class="file-uploading">
                             {{this.cutName(file.fileName)}}
-                            <i class="far fa-file"></i>
+                            <mat-progress-bar 
+                                mode="determinate" 
+                                [value]="fileUploadProgresses[i]"
+                                color="primary"></mat-progress-bar>
                         </div>
                     </mat-list-item>
                 </div>

@@ -130,8 +130,7 @@ export class WorkspaceComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             sub.unsubscribe();
-            //console.log(`Dialog result: ${result}`);
-            
+            //console.log(`Dialog result: ${result}`); 
         });
     }
 

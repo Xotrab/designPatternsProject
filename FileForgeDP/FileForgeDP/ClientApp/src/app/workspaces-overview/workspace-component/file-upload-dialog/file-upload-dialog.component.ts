@@ -22,6 +22,8 @@ export class FileUploadDialogComponent implements OnInit {
     isEmpty: boolean = true;
     isHovering: boolean;
 
+    highlightedFile : number = null;
+
     base64File: String;
 
     showDescription: boolean = false; //flag to determine whether app should show field for description
@@ -50,7 +52,7 @@ export class FileUploadDialogComponent implements OnInit {
     }
 
     cutName(name: string): string {
-        const boundary = 10;
+        const boundary = 7;
         var parts = name.split('.');
         var extension;
         var filename;
@@ -67,6 +69,7 @@ export class FileUploadDialogComponent implements OnInit {
 
     onDescriptionFieldOpen(index : number)
     {
+        this.highlightedFile = index;
         this.showDescription = true;
         this.currentlyDescribed = index;
         this.description = this.fileList[index].description;
@@ -107,6 +110,7 @@ export class FileUploadDialogComponent implements OnInit {
     }
 
     removeFromUploadBuffer(index) {
+        if(this.descriptionChange) this.onDescriptionDiscard();
         this.fileList.splice(index, 1);
         if (this.fileList.length == 0) this.isEmpty = true;
     }
@@ -114,7 +118,7 @@ export class FileUploadDialogComponent implements OnInit {
         this.dialogRef.close();
     }
     onAmountExceed() {
-        this.mSnackBar.open('Hey, slow down! Too many files!', 'Okay, sorry :<', {
+        this.mSnackBar.open('Hey, slow down! Too many files!', 'Got it', {
             duration: 3000,
         });
         this.isShaking = true;
@@ -125,13 +129,15 @@ export class FileUploadDialogComponent implements OnInit {
     onDescriptionSave()
     {
         var index = this.currentlyDescribed;
-        this.showDescription=false;
+        this.highlightedFile = null;
+        this.showDescription =false;
         this.fileList[index].description = this.description;
         this.description = null;
         this.currentlyDescribed = null;
     }
     onDescriptionDiscard()
     {
+        this.highlightedFile = null;
         this.showDescription = false;
         this.description = null;
         this.currentlyDescribed = null;
@@ -144,8 +150,16 @@ export class FileUploadDialogComponent implements OnInit {
             progressList: this.fileUploadProgresses,
             doneFlag: this.isDone,
         });
-        while (!this.isDone) {
-            console.log('Pobranko');
-        }
+    
+        
+    }
+    uploadDone()
+    {
+        console.log("JDJDJDJDJDJDJ")
+        var completion = 0;
+        this.fileUploadProgresses.forEach((progress) => completion+=progress);
+        var result = (Math.round(completion/this.fileList.length)==100);
+        console.log("Result = " + result);
+        return (!result);
     }
 }

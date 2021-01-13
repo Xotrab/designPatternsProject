@@ -26,6 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -78,6 +79,7 @@ import { FileUpdateDialogComponent } from './workspaces-overview/workspace-compo
         MatDialogModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        MatProgressBarModule,
         OAuthModule.forRoot(),
     ],
     providers: [

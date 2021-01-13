@@ -20,6 +20,8 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
     @ViewChild(WorkspaceComponent) workspace: WorkspaceComponent;
     @ViewChild(WorkspaceSidebarComponent) sidebar: WorkspaceSidebarComponent;
 
+    uploaded : number = 0;
+
     notify(sender: object, event: { type: String; content: any }): void {
         switch (sender) {
             case this.sidebar:
@@ -55,9 +57,10 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
 
                         files.forEach((file) => {
                             progress.push(0);
-                            this.uploadFile(count++, file, progress);
+                            this.uploadFile(count++, file, progress, isDone);
                         });
-                        isDone.value = true;
+
+                        //isDone.value = true;
                         break;
 
                     case 'downloadFile':
@@ -156,7 +159,7 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
         this.currentWorkspace = event;
     }
     
-    uploadFile(fileNumber: number, file: FileModelDto, progress : Array<number>) {
+    uploadFile(fileNumber: number, file: FileModelDto, progress : Array<number>, isDone: {value : boolean}) {
         const formatData = new FormData();
         formatData.append('file', file.file);
         formatData.append('fileName', file.file.name);
@@ -183,7 +186,28 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
             )
             .subscribe((event: any) => {
                 if (typeof event === 'object') {
+                    if(event.body.id != null)
+                    {
+                        this.uploaded += 1;
+                        if(this.uploaded==progress.length)
+                        {
+                            this.uploaded = 0;
+                            this.mWorkspaceService
+                                .getWorkspaceFiles(this.currentWorkspace.id)
+                                .subscribe(
+                                    (result: FileModelDto[]) => {
+                                        this.workspace.setWorkspace(result, this.currentWorkspace);
+                                        isDone.value = true;
+                                    },
+                                    (error) => {
+                                        throw new Error(error);
+                                    }
+                                );
+                            isDone.value = true;
+                        }
+                    }
                     console.log(event.body);
+                    
                 }
             });
     }
