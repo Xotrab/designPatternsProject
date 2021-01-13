@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { map } from 'rxjs/operators';
 import { Mediator } from '../interfaces/mediator';
 import { FileModelDto } from '../models/file/file-dto';
@@ -15,7 +16,7 @@ import { WorkspaceSidebarComponent } from './workspace-sidebar/workspace-sidebar
     styleUrls: ['./workspaces-overview.component.scss'],
 })
 export class WorkspacesOverviewComponent implements OnInit, Mediator {
-    constructor(private mWorkspaceService: WorkspaceService) {}
+    constructor(private oauthService: OAuthService, private mWorkspaceService: WorkspaceService) {}
 
     @ViewChild(WorkspaceComponent) workspace: WorkspaceComponent;
     @ViewChild(WorkspaceSidebarComponent) sidebar: WorkspaceSidebarComponent;
@@ -122,7 +123,7 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                             lastModificationDate: String(
                                 formatDate(new Date(), 'dd/MM/yyyy', 'en')
                             ),
-                            lastModifiedBy: 'Modyfikator190', //TODO later change depending on the user performing the update
+                            lastModifiedBy: (<any>this.oauthService.getIdentityClaims()).preferred_username,
                         };
                         this.mWorkspaceService
                             .updateWorkspaceFile(update.groupId, update.id, update)
@@ -165,7 +166,7 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
         formatData.append('fileName', file.file.name);
         formatData.append('lastModificationDate', <string>file.lastModificationDate);
         formatData.append('description', <string>file.description == "" ? "(no description)" : <string>file.description);
-        formatData.append('lastModifiedBy', <string>file.lastModifiedBy);
+        formatData.append('lastModifiedBy', (<any>this.oauthService.getIdentityClaims()).preferred_username);
 
         console.log("Wysylanko");
         this.mWorkspaceService
