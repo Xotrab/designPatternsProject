@@ -10,6 +10,7 @@ namespace FileForgeDP
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Features;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -79,6 +80,8 @@ namespace FileForgeDP
                 options.ValueLengthLimit = int.MaxValue; //not recommended value
                 options.MultipartBodyLengthLimit = int.MaxValue; //not recommended value
             });
+
+            services.AddSignalR();
 
             services.AddControllers();
             services.AddCors(x => x.AddPolicy(mCorsPolicy, builder =>
@@ -174,6 +177,8 @@ namespace FileForgeDP
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<AdminNotifyHub>("/api/admin/notify");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
@@ -190,8 +195,7 @@ namespace FileForgeDP
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });
-
+            }); 
         }
     }
 }

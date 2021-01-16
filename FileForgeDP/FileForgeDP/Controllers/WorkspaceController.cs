@@ -152,7 +152,7 @@
 
         private string RetrieveUserId()
         {
-            return User?.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
+            return User?.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
         }
     }
 }

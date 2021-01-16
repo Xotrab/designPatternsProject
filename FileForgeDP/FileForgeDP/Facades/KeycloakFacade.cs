@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FileForgeDP.Database;
 using Keycloak.Net;
@@ -38,6 +39,13 @@ namespace FileForgeDP
             });
 
             return result;
+        }
+
+        public async Task<string> GetUserIdByName(string name)
+        {
+            var users = await mKeycloakClient.GetUsersAsync(mRealmName);
+
+            return null; // users.FirstOrDefault(x => x.0)
         }
 
         public async Task<IEnumerable<Group>> GetAvailableGroups()

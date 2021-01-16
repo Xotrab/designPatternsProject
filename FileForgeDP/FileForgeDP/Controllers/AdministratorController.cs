@@ -26,7 +26,10 @@
         {
             var keycloakGroups = await mKeycloakFacade.GetAvailableGroups();
 
-            mWorkspaceRepository.SynchronizeWorkspaces(keycloakGroups.Select(x => x.Name));
+            if (keycloakGroups.Count() > 0)
+            {
+                mWorkspaceRepository.SynchronizeWorkspaces(keycloakGroups.Select(x => x.Name));
+            }
 
             return Ok();
         }
