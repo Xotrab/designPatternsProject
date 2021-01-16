@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace FileForgeDP
 {
+
     public class OurMapper : IOurMapper
     {
         private Dictionary<Type, Dictionary<string, Func<object, object>>> mMappingRules;
@@ -12,8 +13,9 @@ namespace FileForgeDP
             mMappingRules = mappingRules;
         }
 
-        public T Map<T>(object objectToMap) where T : new()
+        public T Map<T>(object objectToMap) where T : class,new()
         {
+            if (objectToMap == null) return null;
             var resultObject = new T();
             var resultObjectType = typeof(T);
 
