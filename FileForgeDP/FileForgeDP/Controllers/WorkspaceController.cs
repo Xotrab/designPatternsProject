@@ -29,9 +29,8 @@
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces")]
-        public async Task<IActionResult> PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
+        public IActionResult PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
         {
-
             var createdId = mWorkspacesFacade.AddWorkspace(workspaceModelDto);
 
             return CreatedAtRoute(new { id = createdId }, new { name = workspaceModelDto.Name, id = createdId });
@@ -67,14 +66,14 @@
         {
             var result =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
 
-            mAuditLogger.Debug(User?.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "undefined", ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
 
             return File(result.FileBytes, result.ContentType , result.FileName);
         }
     
         [HttpGet]
         [Route("workspaces/{id}")]
-        public async Task<ActionResult<WorkspaceModelDto>> GetWorkspaceModel(string id)
+        public ActionResult<WorkspaceModelDto> GetWorkspaceModel(string id)
         {
             var result = mWorkspacesFacade.GetWorkspace(id);
             
@@ -85,7 +84,7 @@
 
         [HttpDelete]
         [Route("workspaces/{id}")]
-        public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string id)
+        public ActionResult<WorkspaceModelDto> DeleteWorkspaceModel(string id)
         {
             mWorkspacesFacade.DeleteWorkspace(id);
             mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
@@ -94,7 +93,7 @@
 
         [HttpDelete]
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public async Task<ActionResult<WorkspaceModelDto>> DeleteWorkspaceModel(string workspaceId, string fileId)
+        public ActionResult<WorkspaceModelDto> DeleteWorkspaceModel(string workspaceId, string fileId)
         {   
             mWorkspacesFacade.RemoveFileFromWorkspace(workspaceId, fileId);
             mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
@@ -103,7 +102,7 @@
 
         [HttpPut]
         [Route("workspaces/{id}")]
-        public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModel(string id, [FromBody] WorkspaceModelDto workspaceModelDto)
+        public ActionResult<WorkspaceModelDto> PutWorkspaceModel(string id, [FromBody] WorkspaceModelDto workspaceModelDto)
         {
             if (id != workspaceModelDto.Id)
             {
@@ -117,7 +116,7 @@
 
         [HttpPut]
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public async Task<ActionResult<WorkspaceModelDto>> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
+        public ActionResult<WorkspaceModelDto> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
         {
             if (fileId != fileModelDto.Id || workspaceId != fileModelDto.GroupId)
             {
