@@ -12,7 +12,7 @@
     using System.Net;
     using System.Threading.Tasks;
 
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     [Route("api/")]
     [ApiController]
     public class WorkspaceController : ControllerBase

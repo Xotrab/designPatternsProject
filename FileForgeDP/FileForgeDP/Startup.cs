@@ -45,6 +45,7 @@ namespace FileForgeDP
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Administrator", policy => policy.RequireClaim("user_roles", "[Administrator]"));
+                options.AddPolicy("User", policy => policy.RequireClaim("user_roles", "[User]"));
             });
 
             services.Configure<FileForgeDatabaseSettings>

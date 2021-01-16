@@ -16,7 +16,6 @@ namespace FileForgeDP.Database.Builders
         {
             return new MongoUpdateQueryBuilder<T>();
         }
-        //Patryk proszę nie patrz tu, nie patrz bo oślepniesz. Konrad nas opętał.
         public MongoUpdateQueryBuilder<T> Add(string field, Object element)
         {
             mUpdates.Add(Builders<T>.Update.Set(field, element));
