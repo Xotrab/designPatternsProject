@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FileForgeDP.Database;
 using Keycloak.Net;
+using Keycloak.Net.Models.Groups;
 using Keycloak.Net.Models.Users;
 
 namespace FileForgeDP
@@ -35,6 +36,20 @@ namespace FileForgeDP
                     }
                 }
             });
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Group>> GetAvailableGroups()
+        {
+            var result = await mKeycloakClient.GetGroupHierarchyAsync(mRealmName);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Group>> GetUserGroups(string userId)
+        {
+            var result = await mKeycloakClient.GetUserGroupsAsync(mRealmName, userId);
 
             return result;
         }

@@ -40,6 +40,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthGuard } from './security/authGuard';
 import { FileRemoveDialogComponent } from './workspaces-overview/workspace-component/file-remove-dialog/file-remove-dialog.component';
 import { FileUpdateDialogComponent } from './workspaces-overview/workspace-component/file-update-dialog/file-update-dialog.component';
+import { AdminService } from './services/admin.service';
 @NgModule({
     declarations: [
         AppComponent,
@@ -86,6 +87,7 @@ import { FileUpdateDialogComponent } from './workspaces-overview/workspace-compo
     ],
     providers: [
         UserService,
+        AdminService,
         AuthGuard,
         {
             provide: HTTP_INTERCEPTORS,

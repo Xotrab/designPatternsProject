@@ -18,12 +18,29 @@
     public class WorkspaceController : ControllerBase
     {
         private readonly WorkspacesFacade mWorkspacesFacade;
+        private readonly KeycloakFacade mKeycloakFacade;
         private readonly ILogger mAuditLogger;
    
-        public WorkspaceController(WorkspacesFacade workspacesFacade, ILogger logger)
+        public WorkspaceController(WorkspacesFacade workspacesFacade, KeycloakFacade keycloakFacade, ILogger logger)
         {
             mWorkspacesFacade = workspacesFacade;
+            mKeycloakFacade = keycloakFacade;
             mAuditLogger = logger;
+        }
+
+        [HttpGet]
+        [Route("userWorkspaces")]
+        public async Task<ActionResult<List<WorkspaceModelDto>>> GetCurrentUserWorkspaces()
+        {
+            var userId = RetrieveUserId();
+
+            var userGroups = await mKeycloakFacade.GetUserGroups(userId);
+
+            var userWorkspaces = userGroups.Select(x => x.Name)
+                                           .Select(x => mWorkspacesFacade.GetWorkspaceByName(x))
+                                           .ToList();
+
+            return userWorkspaces;
         }
     
         [HttpPost]
@@ -131,6 +148,11 @@
         private string RetrieveUsername()
         {
             return User?.Claims.FirstOrDefault(x => x.Type == "name")?.Value ?? "undefined";
+        }
+
+        private string RetrieveUserId()
+        {
+            return User?.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
         }
     }
 }

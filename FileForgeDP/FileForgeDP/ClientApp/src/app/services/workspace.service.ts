@@ -10,6 +10,10 @@ import { FileModelDto } from '../models/file/file-dto';
 export class WorkspaceService {
     constructor(private http: HttpClient, private oauthService: OAuthService) {}
 
+    public getUserWorkspaces() {
+        return this.http.get(environment.apiUrl + 'userWorkspaces/');
+    }
+
     public getWorkspaceFiles(id: String) {
         return this.http.get(environment.apiUrl + 'workspaces/' + id + '/files');
     }

@@ -1,6 +1,8 @@
 ﻿using FileForgeDP.Database.Models;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileForgeDP.Database.Repositories
 {
@@ -18,6 +20,7 @@ namespace FileForgeDP.Database.Repositories
             mWorkspaces = database.GetCollection<WorkspaceModel>(settings.WorkspaceCollectionName);
             
         }
+
         public string Create(WorkspaceModel workspace)
         {
             mWorkspaces.InsertOne(workspace);
@@ -32,11 +35,38 @@ namespace FileForgeDP.Database.Repositories
             return file.Id;
         }
 
+        public void SynchronizeWorkspaces(IEnumerable<string> groupNames)
+        {
+            var databaseWorkspaceNames = Get().Select(x => x.Name);
+
+            var newGroups = groupNames.Except(databaseWorkspaceNames);
+            var removedGroups = databaseWorkspaceNames.Except(groupNames);
+
+            foreach (var newGroup in newGroups)
+            {
+                var newWorkspace = new WorkspaceModel
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = newGroup
+                };
+
+                Create(newWorkspace);
+            }
+
+            foreach (var removedGroup in removedGroups)
+            {
+                RemoveByName(removedGroup);
+            }
+        }
+
         public List<WorkspaceModel> Get() =>
             mWorkspaces.Find(workspace => true).ToList();
 
         public WorkspaceModel Get(string Id) =>
             mWorkspaces.Find(workspace => workspace.Id == Id).FirstOrDefault();
+
+        public WorkspaceModel GetByName(string name) =>
+            mWorkspaces.Find(workspace => workspace.Name == name).FirstOrDefault();
 
         // Get the File with fileId from workspace with workspaceId
         public FileModel GetFile(string workspaceId, string fileId) =>
@@ -49,6 +79,13 @@ namespace FileForgeDP.Database.Repositories
         {
             mFileRepository.RemoveSet(id);
             mWorkspaces.DeleteOne(workspace => workspace.Id == id);
+        }
+
+        public void RemoveByName(string name)
+        {
+            var workspace = GetByName(name);
+
+            Remove(workspace.Id);
         }
 
         public void RemoveOne(string workspaceId, string fileId) =>

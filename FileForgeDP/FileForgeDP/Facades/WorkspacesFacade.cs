@@ -55,6 +55,13 @@ namespace FileForgeDP.Facades
             return mMapper.WorkspaceModelToDto(result);
         }
 
+        public WorkspaceModelDto GetWorkspaceByName(string name)
+        {
+            var result = mWorkspaceRepository.GetByName(name);
+
+            return mMapper.WorkspaceModelToDto(result);
+        }
+
         // TODO add return deleted ID
         public void DeleteWorkspace(string id)
         {
