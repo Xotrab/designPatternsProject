@@ -10,13 +10,15 @@ import { UserRegisterDto } from '../../models/user/user-register-dto';
     styleUrls: ['./register-form.component.scss'],
 })
 export class RegisterFormComponent implements OnInit {
-  constructor(private builder: FormBuilder, private userService: UserService) { }
+    constructor(private builder: FormBuilder, private userService: UserService) {}
     public confirmEmailValid: boolean;
 
     public formLogin: FormGroup;
     ngOnInit(): void {
         this.formLogin = this.builder.group({
-            login: ['', [Validators.required, Validators.minLength(4)]],
+            firstName: ['', [Validators.required, Validators.minLength(1)]],
+            lastName: ['', [Validators.required, Validators.minLength(1)]],
+            login: ['', [Validators.required, Validators.minLength(1)]],
             email: ['', [Validators.required, Validators.email]],
             confirmEmail: ['', [Validators.required]],
             password: ['', [Validators.required, Validators.minLength(5)]],
@@ -28,6 +30,12 @@ export class RegisterFormComponent implements OnInit {
 
     get f() {
         return this.formLogin.controls;
+    }
+    get firstName() {
+        return this.formLogin.get('firstName');
+    }
+    get lastName() {
+        return this.formLogin.get('lastName');
     }
     get email() {
         return this.formLogin.get('email');
@@ -42,7 +50,6 @@ export class RegisterFormComponent implements OnInit {
         return this.formLogin.get('login');
     }
     get confirmEmail() {
-        console.log(this.formLogin);
         return this.formLogin.get('confirmEmail');
     }
 
@@ -52,14 +59,14 @@ export class RegisterFormComponent implements OnInit {
         }
 
         var userRegisterDto = {
-            firstName: "Konrad",
-            lastName: "PlzZrob",
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
             email: this.email.value,
             username: this.login.value,
-            password: this.password.value
+            password: this.password.value,
         } as UserRegisterDto;
-
-        this.userService.registerUser(userRegisterDto).subscribe(x => console.log(x));
+        debugger;
+        this.userService.registerUser(userRegisterDto).subscribe((x) => console.log(x));
     }
 
     equalEmails() {
