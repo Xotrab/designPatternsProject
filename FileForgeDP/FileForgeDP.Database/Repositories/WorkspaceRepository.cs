@@ -46,7 +46,6 @@ namespace FileForgeDP.Database.Repositories
             {
                 var newWorkspace = new WorkspaceModel
                 {
-                    Id = Guid.NewGuid().ToString(),
                     Name = newGroup
                 };
 
