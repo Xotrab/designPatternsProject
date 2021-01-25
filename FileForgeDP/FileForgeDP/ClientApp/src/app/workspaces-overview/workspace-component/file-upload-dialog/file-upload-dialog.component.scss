@@ -35,11 +35,7 @@
 {
     width:100%;
 }
-// ::ng-deep.mat-list-item-content
-// {
-//     padding-bottom: 0;
-//     margin: 0;
-// }
+
 .file-upload-dialog-content {
     display: flex;
     flex-direction: column;
@@ -76,7 +72,6 @@
                 padding-bottom: 0.5rem;
                 &:hover
                 {
-                    //color: $primary;
                     border-bottom: 0.2rem solid $primary;
                 }
             }
@@ -130,7 +125,7 @@
             flex-direction: row;
             justify-content: flex-end;
             align-items: center;
-            //margin-bottom: 3rem;
+
             button
             {
                 font-size: 1rem;
@@ -142,7 +137,6 @@
     .dropzone {
         border: dashed 2px $bright-gray-color;
         border-radius: 1rem;
-        //margin-top: 3rem;
         margin-bottom: 3rem;
         width: 40rem;
         height: 15rem;
@@ -172,7 +166,6 @@
             align-items: center;
             justify-content: space-evenly;
             &.hovering {
-                //color: $primary;
                 p {
                     color: $primary;
                 }

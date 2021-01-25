@@ -12,7 +12,7 @@
             </div>
             
             <div *ngIf="link == links[0]">
-                <app-register-form></app-register-form>
+                <app-register-form (registered)="changeLinkAndComponent()"></app-register-form>
             </div>
         
 

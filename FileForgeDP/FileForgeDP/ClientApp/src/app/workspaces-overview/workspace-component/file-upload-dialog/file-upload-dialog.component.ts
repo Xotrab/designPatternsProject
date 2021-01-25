@@ -90,7 +90,7 @@ export class FileUploadDialogComponent implements OnInit {
                     file: file,
                     contentType: file.type,
                     lastModificationDate: String(formatDate(new Date(), 'dd/MM/yyyy', 'en')),
-                    lastModifiedBy: 'Bob',
+                    lastModifiedBy: '',
                 });
             });
             this.isEmpty = false;
@@ -155,11 +155,9 @@ export class FileUploadDialogComponent implements OnInit {
     }
     uploadDone()
     {
-        console.log("JDJDJDJDJDJDJ")
         var completion = 0;
         this.fileUploadProgresses.forEach((progress) => completion+=progress);
         var result = (Math.round(completion/this.fileList.length)==100);
-        console.log("Result = " + result);
         return (!result);
     }
 }

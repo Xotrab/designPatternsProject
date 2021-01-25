@@ -62,7 +62,6 @@ namespace FileForgeDP.Facades
             return mMapper.WorkspaceModelToDto(result);
         }
 
-        // TODO add return deleted ID
         public void DeleteWorkspace(string id)
         {
             mWorkspaceRepository.Remove(id);
@@ -72,7 +71,7 @@ namespace FileForgeDP.Facades
         {
             mWorkspaceRepository.RemoveOne(workspaceId, fileId);
         }
-        // TODO add return of updated workspace
+        
         public void UpdateWorkspace(string id, WorkspaceModelDto workspaceModelDto)
         {
             var workspaceModel = mMapper.DtoToWorkspaceModel(workspaceModelDto);

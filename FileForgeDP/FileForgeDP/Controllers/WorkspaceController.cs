@@ -58,7 +58,6 @@
         [Route("workspaces/{id}")]
         public async Task<IActionResult> PostWorkspaceModel(string id, [FromForm] FileModelDto fileModelDto)
         {
-            // Strange but necessary
             fileModelDto.GroupId = id;
 
             fileModelDto.FileBytes = await fileModelDto.File.ToBytes();

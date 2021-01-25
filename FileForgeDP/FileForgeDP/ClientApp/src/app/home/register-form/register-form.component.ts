@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { equal } from 'assert';
 import { UserRegisterDto } from '../../models/user/user-register-dto';
+
 
 @Component({
     selector: 'app-register-form',
@@ -12,6 +13,8 @@ import { UserRegisterDto } from '../../models/user/user-register-dto';
 export class RegisterFormComponent implements OnInit {
     constructor(private builder: FormBuilder, private userService: UserService) {}
     public confirmEmailValid: boolean;
+
+    @Output() registered = new EventEmitter<any>();
 
     public formLogin: FormGroup;
     ngOnInit(): void {
@@ -65,8 +68,8 @@ export class RegisterFormComponent implements OnInit {
             username: this.login.value,
             password: this.password.value,
         } as UserRegisterDto;
-        debugger;
         this.userService.registerUser(userRegisterDto).subscribe((x) => console.log(x));
+        this.registered.emit("registered");
     }
 
     equalEmails() {

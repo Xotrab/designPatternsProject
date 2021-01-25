@@ -8,11 +8,9 @@ namespace FileForgeDP.Database.Dto
     {
         public string Id { get; set; }
 
-
         public string GroupId { get; set; }
 
         public string Description { get; set; }
-
 
         public string FileName { set; get; }
 

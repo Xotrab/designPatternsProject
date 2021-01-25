@@ -10,10 +10,9 @@
     <mat-list class="list-item-container">
         
         <div  *ngFor="let workspace of workspaces; let i=index" (click)="onClick(i)">
-        <mat-list-item  [ngClass]="(highlighted == i) ? 'highlighted-item' : 'item' ">
-                {{workspace.name}}
-        </mat-list-item>
-        <!-- <mat-divider></mat-divider> -->
+            <mat-list-item  [ngClass]="(highlighted == i) ? 'highlighted-item' : 'item' ">
+                    {{workspace.name}}
+            </mat-list-item>
         </div>
     </mat-list>
 

@@ -30,7 +30,6 @@ export class WorkspaceComponent implements OnInit {
     constructor(private mWorkspaceService: WorkspaceService, public dialog: MatDialog) {}
 
     public chosenWorkspace: WorkspaceModelDto;
-    //public files: FileModelDto[];
 
     columnsToDisplay = ['fileName', 'contentType', 'lastModificationDate', 'lastModificationBy'];
 
@@ -65,46 +64,6 @@ export class WorkspaceComponent implements OnInit {
         this.dataSource.sort = this.sort;
     }
 
-    // ngOnChanges(changes: SimpleChanges) {
-    //     //later a place for ../api/workspaces/ID/files GET method
-    //     const workspaceChanges = changes['chosenWorkspace'];
-    //     const currentWorkspace: WorkspaceModelDto = workspaceChanges.currentValue;
-
-    //     //         {
-    //     //             id: '83',
-    //     //             groupId: '69',
-    //     //             description: 'co do kurwy',
-    //     //             fileName: 'lingwistyka',
-    //     //             file: 'base64',
-    //     //             contentType: 'jpg',
-    //     //             lastModificationDate: '01/01/2137',
-    //     //             lastModifiedBy: 'Bob',
-    //     //         },
-
-    //     this.isDataLoaded = false;
-
-    //     this.mWorkspaceService.getWorkspacesOverview(currentWorkspace.id).subscribe(
-    //         (result: FileModelDto[]) => {
-    //             //console.log();
-    //             //console.log(JSON.stringify(result));
-    //             this.files = result;
-    //             this.dataSource.data = this.files;
-    //             this.isDataLoaded = true;
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //         }
-    //     );
-    //     //console.log(this.files);
-
-    //     this.tableDisplay = {
-    //         display: this.chosenWorkspace.id != null ? 'block' : 'none',
-    //     };
-
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    // }
-
     applyFilter(event: Event) {
         this.dataSource.filterPredicate = function (data, filter: string): boolean {
             return data.fileName.toLowerCase().includes(filter);
@@ -128,7 +87,6 @@ export class WorkspaceComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             sub.unsubscribe();
-            //console.log(`Dialog result: ${result}`);
         });
     }
 

@@ -168,7 +168,6 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
         formatData.append('description', <string>file.description == "" ? "(no description)" : <string>file.description);
         formatData.append('lastModifiedBy', (<any>this.oauthService.getIdentityClaims()).preferred_username);
 
-        console.log("Wysylanko");
         this.mWorkspaceService
             .uploadWorkspaceFile(file.groupId, formatData)
             .pipe(
@@ -178,7 +177,6 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                             progress[fileNumber] = Math.round(
                                 (event.loaded * 100) / event.total
                             );
-                            console.log(progress);
                             break;
                         case HttpEventType.Response:
                             return event;
@@ -207,7 +205,6 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
                             isDone.value = true;
                         }
                     }
-                    console.log(event.body);
                     
                 }
             });

@@ -22,10 +22,6 @@
     color: $white-color !important;
 }
 
-// .element-row td {
-//      border-bottom: 0;
-// }
-
 .file-detail {
     overflow: hidden;
     display: flex;
@@ -43,14 +39,11 @@
         height: $workspace-item-height;
         color: $primary;
         border-bottom: solid $primary $workspace-border-size;
-        //border-top: solid $primary $workspace-border-size;
     }
     td {
         font-size: 1.25rem;
         color: $white-color;
-        //height: $workspace-item-height;
         border-bottom: solid $gray-color $workspace-border-size;
-        //border-bottom: none !important;
     }
     tr {
         height: $workspace-item-height;
@@ -102,7 +95,6 @@
     color: $white-color;
 }
 .detail-contents {
-    //border-bottom: solid $gray-color $workspace-border-size;
     padding: 0;
     border-bottom: none !important;
     background: $light-gray-highlight;
