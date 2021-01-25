@@ -25,6 +25,10 @@ export class NavMenuComponent {
         this.router.navigate(['/']);
     }
 
+    goToAdminPanel(){
+        this.router.navigate(['/admin']);
+    }
+
     get givenName() {
         let claims = <any>this.oauthService.getIdentityClaims();
         if (!claims) return null;

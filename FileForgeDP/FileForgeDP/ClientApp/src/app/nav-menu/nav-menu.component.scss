@@ -44,7 +44,12 @@ html {
             display: flex;
             justify-content: flex-end;
             align-content: center;
+            gap: 1rem;
             .logout-btn {
+                justify-self: flex-end;
+            }
+            .admin-btn {
+                //margin-right:20px;
                 justify-self: flex-end;
             }
             .username {

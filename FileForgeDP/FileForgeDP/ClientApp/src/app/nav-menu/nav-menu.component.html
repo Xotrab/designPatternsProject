@@ -10,6 +10,9 @@
     
         <div class="details" *ngIf="givenName">
             <span class="item username">Hello {{givenName}}</span>
+            <button *ngIf="givenName === 'admin'" class="admin-btn" mat-raised-button color="white" (click)="goToAdminPanel()">
+                Admin Panel
+           </button>
             <button class="logout-btn" mat-raised-button color="white" (click)="logout()">
                  Logout
             </button>
