@@ -8,7 +8,6 @@ import { UsersManagementComponent } from './admin-panel/users-management/users-m
 import { WorkspacesManagementComponent } from './admin-panel/workspaces-management/workspaces-management.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './home/login-form/login-form.component';
 import { RegisterFormComponent } from './home/register-form/register-form.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -41,6 +40,7 @@ import { AuthGuard } from './security/authGuard';
 import { FileRemoveDialogComponent } from './workspaces-overview/workspace-component/file-remove-dialog/file-remove-dialog.component';
 import { FileUpdateDialogComponent } from './workspaces-overview/workspace-component/file-update-dialog/file-update-dialog.component';
 import { AdminService } from './services/admin.service';
+import { HomeComponent } from './home/home.component';
 @NgModule({
     declarations: [
         AppComponent,
