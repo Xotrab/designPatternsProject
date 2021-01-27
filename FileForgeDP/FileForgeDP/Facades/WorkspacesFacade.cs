@@ -72,6 +72,7 @@ namespace FileForgeDP.Facades
         {
             mWorkspaceRepository.RemoveOne(workspaceId, fileId);
         }
+
         // TODO add return of updated workspace
         public void UpdateWorkspace(string id, WorkspaceModelDto workspaceModelDto)
         {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace FileForgeDP
 {
-
     public class OurMapper : IOurMapper
     {
         private Dictionary<Type, Dictionary<string, Func<object, object>>> mMappingRules;
