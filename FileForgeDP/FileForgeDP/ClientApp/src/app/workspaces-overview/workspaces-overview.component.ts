@@ -23,133 +23,150 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
 
     uploaded : number = 0;
 
+    workspaceChangeHandler(event){
+        this.currentWorkspace = event.content;
+        this.mWorkspaceService
+            .getWorkspaceFiles(this.currentWorkspace.id)
+            .subscribe(
+                (result: FileModelDto[]) => {
+                    this.workspace.setWorkspace(result, this.currentWorkspace);
+                },
+                (error) => {
+                    throw new Error(error);
+                }
+            );
+    }
+
+    uploadFilesHandler(event){
+        var files = event.content.files;
+        var progress = event.content.progressList;
+        var isDone = event.content.doneFlag;
+        var count = 0;
+
+        files.forEach((file) => {
+            progress.push(0);
+            this.uploadFile(count++, file, progress, isDone);
+        });
+
+    }
+
+    downloadFileHandler(event){
+        var workspaceId = event.content.workspaceId;
+        var fileId = event.content.fileId;
+        var filename = event.content.filename;
+
+        this.mWorkspaceService.downloadWorkspaceFile(workspaceId, fileId).subscribe(
+            (response: any) => {
+                let dataType = response.type;
+                let binaryData = [];
+                binaryData.push(response);
+                let downloadLink = document.createElement('a');
+                downloadLink.href = window.URL.createObjectURL(
+                    new Blob(binaryData, { type: dataType })
+                );
+                if (filename) downloadLink.setAttribute('download', filename);
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+            },
+            (error) => {
+                throw new Error(error);
+            }
+        );
+    }
+
+    removeFileHandler(event){
+        var workspaceId = event.content.workspaceId;
+        var fileId = event.content.fileId;
+
+        this.mWorkspaceService.removeWorkspaceFile(workspaceId, fileId).subscribe(
+            (response: any) => {
+                this.mWorkspaceService
+                    .getWorkspaceFiles(this.currentWorkspace.id)
+                    .subscribe(
+                        (result: FileModelDto[]) => {
+                            this.workspace.setWorkspace(
+                                result,
+                                this.currentWorkspace
+                            );
+                        },
+                        (error) => {
+                            throw new Error(error);
+                        }
+                    );
+            },
+            (error) => {
+                throw new Error(error);
+            }
+        );
+    }
+
+    updateFileHandler(event){
+        var update: FileModelDto = {
+            id: event.content.fileId,
+            groupId: event.content.workspaceId,
+            description: event.content.description,
+            fileName: event.content.filename,
+            file: null,
+            contentType: null,
+            lastModificationDate: String(
+                formatDate(new Date(), 'dd/MM/yyyy', 'en')
+            ),
+            lastModifiedBy: (<any>this.oauthService.getIdentityClaims()).preferred_username,
+        };
+        this.mWorkspaceService
+            .updateWorkspaceFile(update.groupId, update.id, update)
+            .subscribe(
+                (response: any) => {
+                    this.mWorkspaceService
+                        .getWorkspaceFiles(this.currentWorkspace.id)
+                        .subscribe(
+                            (result: FileModelDto[]) => {
+                                this.workspace.setWorkspace(
+                                    result,
+                                    this.currentWorkspace
+                                );
+                            },
+                            (error) => {
+                                throw new Error(error);
+                            }
+                        );
+                },
+                (error) => {
+                    throw new Error(error);
+                }
+            );
+    }
+
     notify(sender: object, event: { type: String; content: any }): void {
         switch (sender) {
             case this.sidebar:
                 switch (event.type) {
-                    case 'loadWorkspaces':
-                        throw new Error('XD');
-                        break;
+                    
                     case 'workspaceChange':
-                        this.currentWorkspace = event.content;
-                        this.mWorkspaceService
-                            .getWorkspaceFiles(this.currentWorkspace.id)
-                            .subscribe(
-                                (result: FileModelDto[]) => {
-                                    this.workspace.setWorkspace(result, this.currentWorkspace);
-                                },
-                                (error) => {
-                                    throw new Error(error);
-                                }
-                            );
+                        this.workspaceChangeHandler(event);
                         break;
                     default:
-                        throw new Error('Unexpected sidebar operation');
+                        throw new Error('Unknown sidebar operation');
                 }
                 break;
 
             case this.workspace:
                 switch (event.type) {
                     case 'uploadFiles':
-                        var files = event.content.files;
-                        var progress = event.content.progressList;
-                        var isDone = event.content.doneFlag;
-                        var count = 0;
-
-                        files.forEach((file) => {
-                            progress.push(0);
-                            this.uploadFile(count++, file, progress, isDone);
-                        });
-
-                        //isDone.value = true;
+                        this.uploadFilesHandler(event);
                         break;
 
                     case 'downloadFile':
-                        var workspaceId = event.content.workspaceId;
-                        var fileId = event.content.fileId;
-                        var filename = event.content.filename;
-
-                        this.mWorkspaceService.downloadWorkspaceFile(workspaceId, fileId).subscribe(
-                            (response: any) => {
-                                let dataType = response.type;
-                                let binaryData = [];
-                                binaryData.push(response);
-                                let downloadLink = document.createElement('a');
-                                downloadLink.href = window.URL.createObjectURL(
-                                    new Blob(binaryData, { type: dataType })
-                                );
-                                if (filename) downloadLink.setAttribute('download', filename);
-                                document.body.appendChild(downloadLink);
-                                downloadLink.click();
-                            },
-                            (error) => {
-                                throw new Error(error);
-                            }
-                        );
+                        this.downloadFileHandler(event);
                         break;
                     case 'removeFile':
-                        var workspaceId = event.content.workspaceId;
-                        var fileId = event.content.fileId;
-
-                        this.mWorkspaceService.removeWorkspaceFile(workspaceId, fileId).subscribe(
-                            (response: any) => {
-                                this.mWorkspaceService
-                                    .getWorkspaceFiles(this.currentWorkspace.id)
-                                    .subscribe(
-                                        (result: FileModelDto[]) => {
-                                            this.workspace.setWorkspace(
-                                                result,
-                                                this.currentWorkspace
-                                            );
-                                        },
-                                        (error) => {
-                                            throw new Error(error);
-                                        }
-                                    );
-                            },
-                            (error) => {
-                                throw new Error(error);
-                            }
-                        );
+                        this.removeFileHandler(event);
                         break;
                     case 'updateFile':
-                        var update: FileModelDto = {
-                            id: event.content.fileId,
-                            groupId: event.content.workspaceId,
-                            description: event.content.description,
-                            fileName: event.content.filename,
-                            file: null,
-                            contentType: null,
-                            lastModificationDate: String(
-                                formatDate(new Date(), 'dd/MM/yyyy', 'en')
-                            ),
-                            lastModifiedBy: (<any>this.oauthService.getIdentityClaims()).preferred_username,
-                        };
-                        this.mWorkspaceService
-                            .updateWorkspaceFile(update.groupId, update.id, update)
-                            .subscribe(
-                                (response: any) => {
-                                    this.mWorkspaceService
-                                        .getWorkspaceFiles(this.currentWorkspace.id)
-                                        .subscribe(
-                                            (result: FileModelDto[]) => {
-                                                this.workspace.setWorkspace(
-                                                    result,
-                                                    this.currentWorkspace
-                                                );
-                                            },
-                                            (error) => {
-                                                throw new Error(error);
-                                            }
-                                        );
-                                },
-                                (error) => {
-                                    throw new Error(error);
-                                }
-                            );
+                        this.updateFileHandler(event);
                         break;
                     default:
-                        throw new Error('Unexpected sidebar operation');
+                        throw new Error('Unknown workspace operation');
                 }
         }
     }
