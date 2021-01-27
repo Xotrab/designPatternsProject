@@ -13,6 +13,7 @@ import { Mediator } from 'src/app/interfaces/mediator';
 import { FileRemoveDialogComponent } from './file-remove-dialog/file-remove-dialog.component';
 import { FileUpdateDialogComponent } from './file-update-dialog/file-update-dialog.component';
 import { flatMap } from 'rxjs/operators';
+import { FileAction } from 'src/app/models/enums/file-action';
 
 @Component({
     selector: 'app-workspace',
@@ -82,7 +83,7 @@ export class WorkspaceComponent implements OnInit {
             disableClose: true,
         });
         const sub = dialogRef.componentInstance.onUpload.subscribe((uploadData) => {
-            this.mediator.notify(this, { type: 'uploadFiles', content: uploadData });
+            this.mediator.notify(this, { type: FileAction.UploadFiles, content: uploadData });
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -92,7 +93,7 @@ export class WorkspaceComponent implements OnInit {
 
     downloadFile(idOfWorkspace: string, idOfFile: string, fname: string) {
         this.mediator.notify(this, {
-            type: 'downloadFile',
+            type: FileAction.DownloadFile,
             content: { workspaceId: idOfWorkspace, fileId: idOfFile, filename: fname },
         });
     }
@@ -104,7 +105,7 @@ export class WorkspaceComponent implements OnInit {
         dialogRef.afterClosed().subscribe((result) => {
             if (result == 'accept') {
                 this.mediator.notify(this, {
-                    type: 'removeFile',
+                    type: FileAction.RemoveFile,
                     content: { workspaceId: wId, fileId: fId },
                 });
             }
@@ -128,7 +129,7 @@ export class WorkspaceComponent implements OnInit {
                     newFilename = newFilename + '.' + extension;
                 }
                 this.mediator.notify(this, {
-                    type: 'updateFile',
+                    type: FileAction.UpdateFile,
                     content: {
                         workspaceId: wId,
                         fileId: fId,

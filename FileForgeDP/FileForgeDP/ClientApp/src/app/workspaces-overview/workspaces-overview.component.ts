@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { map } from 'rxjs/operators';
 import { Mediator } from '../interfaces/mediator';
+import { FileAction } from '../models/enums/file-action';
 import { FileModelDto } from '../models/file/file-dto';
 import { WorkspaceModelDto } from '../models/workspace/workspace-dto';
 import { WorkspaceService } from '../services/workspace.service';
@@ -137,12 +138,12 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
             );
     }
 
-    notify(sender: object, event: { type: String; content: any }): void {
+    notify(sender: object, event: { type: FileAction; content: any }): void {
         switch (sender) {
             case this.sidebar:
                 switch (event.type) {
                     
-                    case 'workspaceChange':
+                    case FileAction.WorkspaceChange:
                         this.workspaceChangeHandler(event);
                         break;
                     default:
@@ -152,17 +153,17 @@ export class WorkspacesOverviewComponent implements OnInit, Mediator {
 
             case this.workspace:
                 switch (event.type) {
-                    case 'uploadFiles':
+                    case FileAction.UploadFiles:
                         this.uploadFilesHandler(event);
                         break;
 
-                    case 'downloadFile':
+                    case FileAction.DownloadFile:
                         this.downloadFileHandler(event);
                         break;
-                    case 'removeFile':
+                    case FileAction.RemoveFile:
                         this.removeFileHandler(event);
                         break;
-                    case 'updateFile':
+                    case FileAction.UpdateFile:
                         this.updateFileHandler(event);
                         break;
                     default:
