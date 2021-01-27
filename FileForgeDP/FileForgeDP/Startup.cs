@@ -73,8 +73,8 @@ namespace FileForgeDP
 
             services.AddScoped<WorkspacesFacade>();
             services.AddScoped<KeycloakFacade>();
-            // Set max size for uploaded files, since default is 1024 bytes :(
 
+            // Set max size for uploaded files, since default is 1024 bytes :(
             services.Configure<FormOptions>(options =>
             {
                 options.ValueLengthLimit = int.MaxValue; //not recommended value
@@ -138,6 +138,7 @@ namespace FileForgeDP
 
             app.UseRouting();
             app.UseCors(mCorsPolicy);
+
             app.Use(async (context, next) =>
             {
                 await next();
@@ -156,7 +157,6 @@ namespace FileForgeDP
                         case "DELETE":
                             actionEnum = ActionEnum.DELETE;
                             break;
-
                         case "PUT":
                             actionEnum = ActionEnum.UPDATE;
                             break;

@@ -5,6 +5,7 @@
 
     public class FileModel
     {
+        [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
@@ -21,9 +22,5 @@
         public string LastModificationDate { get; set; }
 
         public string LastModifiedBy { get; set; }
-
-        public FileModel()
-        {
-        }
     }
 }

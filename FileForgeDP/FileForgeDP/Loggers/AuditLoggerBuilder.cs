@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace FileForgeDP.Loggers
 {
@@ -10,9 +6,10 @@ namespace FileForgeDP.Loggers
     {
         private AuditLogger mResult = new AuditLogger();
         private StringBuilder mFormatStringBuilder = new StringBuilder();
+
         public ILogger Build()
         {
-            this.mResult.FormatString = mFormatStringBuilder.ToString();
+            mResult.FormatString = mFormatStringBuilder.ToString();
             return mResult;
         }
 
@@ -53,17 +50,15 @@ namespace FileForgeDP.Loggers
 
         public ILoggerBuilder BuilLogPaths(string path)
         {
-            this.mResult.PathToFile = path;
+            mResult.PathToFile = path;
             mFormatStringBuilder.Append(" ");
             return this;
         }
 
         public ILoggerBuilder Reset()
         {
-            this.mFormatStringBuilder.Clear();
+            mFormatStringBuilder.Clear();
             return this;
         }
-
-
     }
 }

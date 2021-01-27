@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FileForgeDP.Database.Dto
+﻿namespace FileForgeDP.Database.Dto
 {
     public class FileOverviewDto
     {

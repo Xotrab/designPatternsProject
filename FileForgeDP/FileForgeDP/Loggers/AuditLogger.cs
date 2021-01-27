@@ -21,10 +21,10 @@ namespace FileForgeDP.Loggers
         {
             var logBuilder = new StringBuilder(FormatString);
             logBuilder.Replace(LoggerOptionsConstants.USE_ACTION, Action)
-                .Replace(LoggerOptionsConstants.USE_ACTION_STATUS, ((int)ActionStatus).ToString())
-                .Replace(LoggerOptionsConstants.USE_ACTOR, Actor)
-                .Replace(LoggerOptionsConstants.USE_TIMESTAMP, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
-                .Replace(LoggerOptionsConstants.USE_ACTION_TYPE, Enum.GetName(typeof(ActionEnum), EnumActionType));
+                      .Replace(LoggerOptionsConstants.USE_ACTION_STATUS, ((int)ActionStatus).ToString())
+                      .Replace(LoggerOptionsConstants.USE_ACTOR, Actor)
+                      .Replace(LoggerOptionsConstants.USE_TIMESTAMP, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
+                      .Replace(LoggerOptionsConstants.USE_ACTION_TYPE, Enum.GetName(typeof(ActionEnum), EnumActionType));
 
             Log(logBuilder.ToString());
             logBuilder.Clear();

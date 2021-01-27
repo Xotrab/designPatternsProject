@@ -45,11 +45,11 @@
         public void Update(string id, FileModel fileModel)
         {
             var update = MongoUpdateQueryBuilder<FileModel>.Builder();
-            if (fileModel.FileName != "" )
+            if (!string.IsNullOrEmpty(fileModel.FileName))
             {
                 update.Add("FileName", fileModel.FileName);
             }
-            if (fileModel.Description != "")
+            if (!string.IsNullOrEmpty(fileModel.Description))
             {
                 update.Add("Description", fileModel.Description);
             }

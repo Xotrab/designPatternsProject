@@ -20,6 +20,5 @@
         public string LastModificationDate { get; set; }
 
         public string LastModifiedBy { get; set; }
-
     }
 }

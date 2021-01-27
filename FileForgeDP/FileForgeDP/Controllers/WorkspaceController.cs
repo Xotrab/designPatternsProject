@@ -65,8 +65,6 @@
 
             return CreatedAtRoute(new { id = createdId }, new { fileName = fileModelDto.FileName, id = createdId, groupId = fileModelDto.GroupId });
         }
-
-
         
         [HttpGet]
         [Route("workspaces/{workspaceId}/files")]

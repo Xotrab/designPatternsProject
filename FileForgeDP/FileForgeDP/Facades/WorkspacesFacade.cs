@@ -71,7 +71,7 @@ namespace FileForgeDP.Facades
         {
             mWorkspaceRepository.RemoveOne(workspaceId, fileId);
         }
-        
+
         public void UpdateWorkspace(string id, WorkspaceModelDto workspaceModelDto)
         {
             var workspaceModel = mMapper.DtoToWorkspaceModel(workspaceModelDto);
