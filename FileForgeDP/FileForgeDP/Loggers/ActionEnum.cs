@@ -10,6 +10,8 @@ namespace FileForgeDP.Loggers
         UPDATE,
         DELETE,
         GET,
-        UPLOAD
+        UPLOAD,
+        REGISTER,
+        CREATE
     }
 }
