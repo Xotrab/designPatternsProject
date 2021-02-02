@@ -46,7 +46,7 @@
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces")]
-        public IActionResult PostWorkspaceModel([FromBody] WorkspaceModelDto workspaceModelDto)
+        public IActionResult AddNewWorkspace([FromBody] WorkspaceModelDto workspaceModelDto)
         {
             var createdId = mWorkspacesFacade.AddWorkspace(workspaceModelDto);
 
@@ -56,13 +56,14 @@
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Route("workspaces/{id}")]
-        public async Task<IActionResult> PostWorkspaceModel(string id, [FromForm] FileModelDto fileModelDto)
+        public async Task<IActionResult> AddFileToWorkspace(string id, [FromForm] FileModelDto fileModelDto)
         {
             fileModelDto.GroupId = id;
 
             fileModelDto.FileBytes = await fileModelDto.File.ToBytes();
             var createdId = mWorkspacesFacade.AddFileToWorkspace(fileModelDto);
 
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.UPLOAD, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK, createdId);
             return CreatedAtRoute(new { id = createdId }, new { fileName = fileModelDto.FileName, id = createdId, groupId = fileModelDto.GroupId });
         }
         
@@ -70,24 +71,24 @@
         [Route("workspaces/{workspaceId}/files")]
         public  ActionResult<List<FileOverviewDto>> GetAllWorkspaceFiles(string workspaceId)
         {
-            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK, workspaceId);
             return mWorkspacesFacade.GetWorkspaceFiles(workspaceId);
         }
   
         [HttpGet]  
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public IActionResult GetFileModelAsync(string workspaceId, string fileId)
+        public IActionResult GetFileFromWorkspace(string workspaceId, string fileId)
         {
             var result =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
 
-            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result.FileName);
 
             return File(result.FileBytes, result.ContentType , result.FileName);
         }
     
         [HttpGet]
         [Route("workspaces/{id}")]
-        public ActionResult<WorkspaceModelDto> GetWorkspaceModel(string id)
+        public ActionResult<WorkspaceModelDto> GetWorkspace(string id)
         {
             var result = mWorkspacesFacade.GetWorkspace(id);
             
@@ -98,25 +99,25 @@
 
         [HttpDelete]
         [Route("workspaces/{id}")]
-        public ActionResult<WorkspaceModelDto> DeleteWorkspaceModel(string id)
+        public ActionResult<WorkspaceModelDto> DeleteWorkspace(string id)
         {
             mWorkspacesFacade.DeleteWorkspace(id);
-            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent, id);
             return NoContent();
         }
 
         [HttpDelete]
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public ActionResult<WorkspaceModelDto> DeleteWorkspaceModel(string workspaceId, string fileId)
+        public ActionResult<WorkspaceModelDto> DeleteFileFromWorkspace(string workspaceId, string fileId)
         {   
             mWorkspacesFacade.RemoveFileFromWorkspace(workspaceId, fileId);
-            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.NoContent, fileId);
             return NoContent();
         }
 
         [HttpPut]
         [Route("workspaces/{id}")]
-        public ActionResult<WorkspaceModelDto> PutWorkspaceModel(string id, [FromBody] WorkspaceModelDto workspaceModelDto)
+        public ActionResult<WorkspaceModelDto> UpdateWorkspace(string id, [FromBody] WorkspaceModelDto workspaceModelDto)
         {
             if (id != workspaceModelDto.Id)
             {
@@ -130,7 +131,7 @@
 
         [HttpPut]
         [Route("workspaces/{workspaceId}/files/{fileId}")]
-        public ActionResult<WorkspaceModelDto> PutWorkspaceModelFile(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
+        public ActionResult<WorkspaceModelDto> UpdateFileFromWorkspace(string workspaceId, string fileId, [FromBody] FileModelDto fileModelDto)
         {
             if (fileId != fileModelDto.Id || workspaceId != fileModelDto.GroupId)
             {
@@ -138,7 +139,7 @@
             };
 
             mWorkspacesFacade.UpdateWorkspaceFile(workspaceId, fileId, fileModelDto);
-
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.UPDATE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK, fileModelDto.FileName);
             return NoContent();
         }
 
