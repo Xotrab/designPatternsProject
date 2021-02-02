@@ -81,7 +81,7 @@
         {
             var result =  mWorkspacesFacade.GetFileFromWorkspace(workspaceId, fileId);
 
-            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result.FileName);
+            mAuditLogger.Debug(RetrieveUsername(), ActionEnum.GET, ControllerContext.ActionDescriptor.ActionName, result != null ? HttpStatusCode.OK : HttpStatusCode.BadRequest, $"{result.FileName} FROM WORKSPACE {workspaceId}");
 
             return File(result.FileBytes, result.ContentType , result.FileName);
         }
