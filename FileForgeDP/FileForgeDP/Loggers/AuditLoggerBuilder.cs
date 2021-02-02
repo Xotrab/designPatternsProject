@@ -41,6 +41,13 @@ namespace FileForgeDP.Loggers
             return this;
         }
 
+        public ILoggerBuilder BuildTarget()
+        {
+            mFormatStringBuilder.Append(LoggerOptionsConstants.USE_TARGET);
+            mFormatStringBuilder.Append(" ");
+            return this;
+        }
+
         public ILoggerBuilder BuildTimeStamp()
         {
             mFormatStringBuilder.Append(LoggerOptionsConstants.USE_TIMESTAMP);

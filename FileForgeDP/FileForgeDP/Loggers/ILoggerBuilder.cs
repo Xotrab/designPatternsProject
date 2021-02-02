@@ -9,6 +9,7 @@
         ILoggerBuilder BuildActionType();
         ILoggerBuilder BuildAction();
         ILoggerBuilder BuildActionStatus();
+        ILoggerBuilder BuildTarget();
         ILogger Build();
     }
 }

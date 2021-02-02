@@ -17,14 +17,15 @@ namespace FileForgeDP.Loggers
             SaveToFile(log, PathToFile);
         }
 
-        public void Debug(string Actor, ActionEnum EnumActionType, string Action, HttpStatusCode ActionStatus)
+        public void Debug(string actor, ActionEnum enumActionType, string action, HttpStatusCode actionStatus, string target = null)
         {
             var logBuilder = new StringBuilder(FormatString);
-            logBuilder.Replace(LoggerOptionsConstants.USE_ACTION, Action)
-                      .Replace(LoggerOptionsConstants.USE_ACTION_STATUS, ((int)ActionStatus).ToString())
-                      .Replace(LoggerOptionsConstants.USE_ACTOR, Actor)
+            logBuilder.Replace(LoggerOptionsConstants.USE_ACTION, action)
+                      .Replace(LoggerOptionsConstants.USE_ACTION_STATUS, ((int)actionStatus).ToString())
+                      .Replace(LoggerOptionsConstants.USE_ACTOR, actor)
                       .Replace(LoggerOptionsConstants.USE_TIMESTAMP, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"))
-                      .Replace(LoggerOptionsConstants.USE_ACTION_TYPE, Enum.GetName(typeof(ActionEnum), EnumActionType));
+                      .Replace(LoggerOptionsConstants.USE_ACTION_TYPE, Enum.GetName(typeof(ActionEnum), enumActionType))
+                      .Replace(LoggerOptionsConstants.USE_TARGET, target ?? string.Empty);
 
             Log(logBuilder.ToString());
             logBuilder.Clear();
@@ -35,8 +36,6 @@ namespace FileForgeDP.Loggers
             lock (mFileLock)
             {
                 using var sw = (File.Exists(path)) ? File.AppendText(path) : File.CreateText(path);
-
-                // Feel free to format output
                 sw.WriteLine(log);
             }
         }

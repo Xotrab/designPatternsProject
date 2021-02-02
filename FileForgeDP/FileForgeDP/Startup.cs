@@ -68,6 +68,7 @@ namespace FileForgeDP
                                         .BuildActionType()
                                         .BuildActionStatus()                                      
                                         .BuilLogPaths(Path.Combine(Environment.CurrentDirectory, @"..\logs\logs.txt"))
+                                        .BuildTarget()
                                         .Build()
                                         );
 
