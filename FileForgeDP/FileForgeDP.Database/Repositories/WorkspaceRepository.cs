@@ -18,7 +18,7 @@ namespace FileForgeDP.Database.Repositories
 
             mFileRepository = fileRepository;
             mWorkspaces = database.GetCollection<WorkspaceModel>(settings.WorkspaceCollectionName);
-            
+
         }
 
         public string Create(WorkspaceModel workspace)
@@ -34,8 +34,8 @@ namespace FileForgeDP.Database.Repositories
 
             return file.Id;
         }
-
-        public void SynchronizeWorkspaces(IEnumerable<string> groupNames)
+ 
+        public (IEnumerable<string> addedGroups, IEnumerable<string> deletedGroups) SynchronizeWorkspaces(IEnumerable<string> groupNames)
         {
             var databaseWorkspaceNames = Get().Select(x => x.Name);
 
@@ -56,6 +56,8 @@ namespace FileForgeDP.Database.Repositories
             {
                 RemoveByName(removedGroup);
             }
+
+            return (newGroups, removedGroups);
         }
 
         public List<WorkspaceModel> Get() =>

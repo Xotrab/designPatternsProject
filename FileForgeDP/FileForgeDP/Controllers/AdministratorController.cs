@@ -1,8 +1,10 @@
 ﻿namespace FileForgeDP.Controllers
 {
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using FileForgeDP.Database.Repositories;
+    using FileForgeDP.Loggers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +15,12 @@
     {
         private readonly KeycloakFacade mKeycloakFacade;
         private readonly WorkspaceRepository mWorkspaceRepository;
-
-        public AdministratorController(KeycloakFacade keycloakFacade, WorkspaceRepository workspaceRepository)
+        private readonly ILogger mAuditLogger;
+        public AdministratorController(KeycloakFacade keycloakFacade, WorkspaceRepository workspaceRepository, ILogger auditLogger)
         {
             mKeycloakFacade = keycloakFacade;
             mWorkspaceRepository = workspaceRepository;
+            mAuditLogger = auditLogger;
         }
 
         [HttpGet]
@@ -28,7 +31,17 @@
 
             if (keycloakGroups.Count() > 0)
             {
-                mWorkspaceRepository.SynchronizeWorkspaces(keycloakGroups.Select(x => x.Name));
+                var (addedGroups, deletedGroups) = mWorkspaceRepository.SynchronizeWorkspaces(keycloakGroups.Select(x => x.Name));
+
+                foreach(var group in addedGroups)
+                {
+                    mAuditLogger.Debug("admin admin", ActionEnum.CREATE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK, group);
+                }
+
+                foreach (var group in deletedGroups)
+                {
+                    mAuditLogger.Debug("admin admin", ActionEnum.DELETE, ControllerContext.ActionDescriptor.ActionName, HttpStatusCode.OK, group);
+                }
             }
 
             return Ok();
