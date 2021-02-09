@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WorkspaceService } from '../../services/workspace.service';
 import { WorkspaceModelDto } from '../../models/workspace/workspace-dto';
 import { Mediator } from 'src/app/interfaces/mediator';

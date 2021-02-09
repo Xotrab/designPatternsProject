@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { WorkspaceModelDto } from '../../models/workspace/workspace-dto';
 import { FileModelDto } from '../../models/file/file-dto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,6 @@ import { FileUploadDialogComponent } from './file-upload-dialog/file-upload-dial
 import { Mediator } from 'src/app/interfaces/mediator';
 import { FileRemoveDialogComponent } from './file-remove-dialog/file-remove-dialog.component';
 import { FileUpdateDialogComponent } from './file-update-dialog/file-update-dialog.component';
-import { flatMap } from 'rxjs/operators';
 import { FileAction } from 'src/app/models/enums/file-action';
 
 @Component({
